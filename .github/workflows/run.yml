@@ -1,0 +1,41 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Deploy System Test
+        uses: appleboy/ssh-action@master
+        with:
+          HOST: ${{ secrets.IP }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          script: |
+            cd /var/www/khodoan/2023/2023_reactjs_nodejs_system_test
+            git pull origin master
+            cd /var/www/khodoan/2023/2023_reactjs_nodejs_system_test/fe
+            nvm ls
+            nvm install v16.13.0
+            nvm alias default v16.13.0
+            node -v
+            npm cache clean --force
+            npm install --legacy-peer-deps
+            npm audit fix
+            npm  run build -prod
+            pm2 restart 2023_reactjs_nodejs_ktuiux_fe
+            cd /var/www/khodoan/2023/2023_reactjs_nodejs_system_test/be
+            npm install --legacy-peer-deps
+            npm audit fix
+            npm run build -prod
+            pm2 restart 2023_reactjs_nodejs_ktuiux_be
+
