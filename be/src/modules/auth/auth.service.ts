@@ -87,6 +87,27 @@ export class AuthService {
 		return await this.userService.createData({...data,status: USER_STATUS.ACTIVE, type: USER_TYPE.ADMIN});
 	}
 
+	async updatePassword(userId: number, data: any) {
+
+		let user = await this.userRepo.findOneBy({id: userId});
+		if(_.isEmpty(user)) {
+			throw new BadRequestException({code: 'U0002'});
+		}
+
+		const isPasswordMatching = await bcrypt.compare(
+			data.current_password.trim(),
+			user.password
+		);
+		if (!isPasswordMatching) {
+			throw new BadRequestException({ code: 'LG0003', message: 'Mật khẩu không đúng' });
+		}
+
+		user.password = data.password.trim();
+		delete  user.email;
+
+		return await this.userService.updateById(userId, user);
+	}
+
 	async register(data: RegisterDto) {
 		let type = USER_TYPE.DEFAULT;
 		if(data.company_id) {

@@ -95,6 +95,32 @@ export class AuthController {
 		}
 	}
 
+	@Put('update-password')
+	@ApiResponse({ status: 200, description: 'success' })
+	@UseGuards(JwtGuard)
+	async updatePassword(
+		@Body() formDto: any,
+		@Request() req: any,
+	) {
+		try {
+			if (_.isEmpty(formDto)) {
+				throw new BadRequestException({ code: 'F0001' });
+			}
+
+			const user_id = req.user.id || null;
+			if(!user_id) {
+				throw new BadRequestException({ code: 'LG0001', message:'test' });
+			}
+
+			const result = await this.authService.updatePassword(user_id, formDto);
+
+			return BaseResponse(HTTP_STATUS.success, result, '', 'successfully');
+		} catch (error) {
+			console.log('e@updatePassword----> ', error);
+			return BaseResponse(error.status, error.response, error.code || 'E0001', error.message);
+		}
+	}
+
 	@Post('register')
 	@ApiResponse({ status: 200, description: 'success' })
 	async register(

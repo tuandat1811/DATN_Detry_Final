@@ -59,7 +59,26 @@ const RightSideContent = ( props ) =>
 		} else
 		{
 
-			delete formData.current_password;
+			// delete formData.current_password;
+
+			let res = await AUTH_SERVICE.updatePassword( {
+				password: formData.password,
+				current_password: formData.current_password
+			} );
+
+			if ( res.status === 'success' )
+			{
+				setMes( '' )
+				alert("Update password success");
+				message.success( 'Successfully', 10 );
+			} else
+			{
+				alert(res.message);
+				setMes( res.message );
+				message.error( res.message )
+			}
+			dispatch( toggleShowLoading( false ) )
+			return;
 		}
 
 

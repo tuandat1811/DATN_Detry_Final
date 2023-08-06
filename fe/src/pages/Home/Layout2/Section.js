@@ -13,8 +13,8 @@ const section = () => {
               <div className="mb-4 pb-3 me-lg-5">
                 <h6 className="sub-title">We have 150,000+ live jobs</h6>
                 <h1 className="display-5 fw-semibold mb-3">
-                  Find your dream jobs with{" "}
-                  <span className="text-primary fw-bold">Jobcy</span>
+                  Find your dream{" "}
+                  <span className="text-primary fw-bold">Detry</span>
                 </h1>
                 <p className="lead text-muted mb-0">
                   Step into the role of a valued tester at Detry and shape the future of digital experiences. Join our diverse and vibrant community of users, where your opinions and actions matter. From the comfort of your own space, participate in exciting usability tests for websites, apps, and prototypes, all while providing invaluable feedback. Your voice guides businesses towards user-centric solutions, making a real impact on the products you love. Embrace the joy of testing, the thrill of discovery, and the satisfaction of knowing you're a vital part of the user-driven revolution at Detry

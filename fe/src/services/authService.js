@@ -40,4 +40,14 @@ export const AUTH_SERVICE = {
             return error;
         }
     },
+
+    async updatePassword(data) {
+        try {
+            const response = await putMethod('auth/update-password', data);
+            await timeDelay(2000);
+            return response;
+        } catch (error) {
+            return error;
+        }
+    },
 }
