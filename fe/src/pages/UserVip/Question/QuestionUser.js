@@ -79,6 +79,7 @@ const QuestionUser = () =>
 							<th className="text-nowrap">Nội dung</th>
 							<th className="text-nowrap">Tên chủ đề</th>
 							<th className="text-nowrap">Người tạo</th>
+							<th className="text-nowrap">Số lượng câu trả lời</th>
 							<th className="text-nowrap">Action</th>
 						</tr>
 					</thead>
@@ -102,6 +103,9 @@ const QuestionUser = () =>
 										</td>
 										<td className="text-gray-900 text-break">
 											{item.user?.name || 'N/A'}
+										</td>
+										<td className="text-gray-900 text-break">
+											{item.count_answer || '0'}
 										</td>
 										<td>
 											<div className="d-flex">

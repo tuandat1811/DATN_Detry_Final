@@ -15,8 +15,7 @@ export class QuestionController {
 	constructor(private readonly questionService: QuestionService) { }
 
 	@Post('')
-	@UseGuards(JwtGuard)
-	@UseGuards(new RoleGuard([USER_TYPE.USER]))
+	@UseGuards(JwtGuard,new RoleGuard([USER_TYPE.ADMIN, USER_TYPE.USER]))
 	@ApiResponse({ status: 200, description: 'success' })
 	async createData(
 		@Request() req: any,
@@ -38,8 +37,7 @@ export class QuestionController {
 
 
 	@Put(':id')
-	@UseGuards(JwtGuard)
-	@UseGuards(new RoleGuard([USER_TYPE.USER]))
+	@UseGuards(JwtGuard,new RoleGuard([USER_TYPE.ADMIN, USER_TYPE.USER]))
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
 	async updateById(
@@ -65,8 +63,7 @@ export class QuestionController {
 	}
 
 	@Delete(':id')
-	@UseGuards(JwtGuard)
-	@UseGuards(new RoleGuard([USER_TYPE.USER, USER_TYPE.ADMIN]))
+	@UseGuards(JwtGuard,new RoleGuard([USER_TYPE.ADMIN, USER_TYPE.USER]))
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
 	async deleteById(@Param('id') id: number) {
@@ -147,6 +144,7 @@ export class QuestionController {
 			
 			const filters: any = await this.buildFilter(req);
 			filters.user_id = req.user.type == USER_TYPE.USER && req.user.id || null;
+			filters.company_id = req.user.type == USER_TYPE.USER && req.user.company_id || null;
 			const paging: IPaging = {
 				page: req.query.page || 1,
 				page_size: req.query.page_size || 20,

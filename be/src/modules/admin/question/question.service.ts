@@ -26,8 +26,8 @@ export class QuestionService {
 
 	async createData(data: CreateDto, user: any) {
 		let topic = await this.topicService.getById(data.topic_id);
-		if(_.isEmpty(topic)) {
-			throw new BadRequestException({code: 'Q0001', message: 'Topic not found!'});
+		if (_.isEmpty(topic)) {
+			throw new BadRequestException({ code: 'Q0001', message: 'Topic not found!' });
 		}
 		data.created_at = new Date();
 		data.updated_at = new Date();
@@ -55,8 +55,8 @@ export class QuestionService {
 
 	async updateById(id: number, data: UpdateDto) {
 		let topic = await this.topicService.getById(data.topic_id);
-		if(_.isEmpty(topic)) {
-			throw new BadRequestException({code: 'Q0001', message: 'Topic not found!'});
+		if (_.isEmpty(topic)) {
+			throw new BadRequestException({ code: 'Q0001', message: 'Topic not found!' });
 		}
 
 		const newData: any = { ...data };
@@ -71,10 +71,18 @@ export class QuestionService {
 			topic: true,
 			user: true
 		};
-		 if(type == 2) {
+		if (type == 2) {
 			relations.results = true;
-			conditions.results = {
-				user_id: filters?.user_id
+			// conditions.results = {
+			// 	user_id: filters?.user_id
+			// }
+			// 
+			if(filters.company_id) {
+				conditions.user = {
+					company_id: filters.company_id
+				}
+			} else {
+				conditions.user_id = filters?.user_id;
 			}
 		}
 
@@ -88,15 +96,15 @@ export class QuestionService {
 		});
 
 		let rs: any = users;
-		if(rs?.length > 0) {
-			for(let item of rs) {
+		if (rs?.length > 0) {
+			for (let item of rs) {
 				// item.answers = await this.answerRepo.findOne({
 				// 	where: {
 				// 		question_id: item.id,
 				// 		user_id: filters.user_id
 				// 	}
 				// });
-				if(type == 1 && filters?.user_id) {
+				if (type == 1 && filters?.user_id) {
 					item.answers = await this.answerRepo.findOne({
 						where: {
 							user_id: filters?.user_id,
@@ -125,8 +133,8 @@ export class QuestionService {
 
 	async getListAnswers(paging: IPaging, filters: any) {
 		let conditions: any = {};
-		if(filters?.question_id) conditions.question_id = filters.question_id;
-		if(filters?.question_name) conditions.question = {
+		if (filters?.question_id) conditions.question_id = filters.question_id;
+		if (filters?.question_name) conditions.question = {
 			name: Like(`%${filters.name.trim()}%`)
 		}
 		let relations: any = {

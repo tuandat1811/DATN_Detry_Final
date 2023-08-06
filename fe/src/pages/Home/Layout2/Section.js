@@ -6,12 +6,11 @@ import processImage2 from "../../../assets/images/process-02.png";
 const section = () => {
   return (
     <React.Fragment>
-      <section className="bg-home2" id="home">
+      <section className="bg-home2 pt-5" style={{ marginTop: "100px"}} id="home">
         <Container>
           <Row className="align-items-center">
             <Col md={7}>
               <div className="mb-4 pb-3 me-lg-5">
-                <h6 className="sub-title">We have 150,000+ live jobs</h6>
                 <h1 className="display-5 fw-semibold mb-3">
                   Find your dream{" "}
                   <span className="text-primary fw-bold">Detry</span>

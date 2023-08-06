@@ -24,6 +24,7 @@ export const UserForm = ( props ) =>
 	const [ files, setFiles ] = useState( [] );
 	const [ companyConfigs, setCompanyConfigs ] = useState( [] );
 	const [ mes, setMes ] = useState( '' );
+	const [ data, setData ] = useState( null );
 	const [formStatus, setFormStatus] = useState({
 		value: 'ACTIVE', label: 'ACTIVE'
 	})
@@ -50,7 +51,7 @@ export const UserForm = ( props ) =>
 		if ( rs.status === 'success' )
 		{
 			let data = rs.data;
-			console.log(data);
+			setData(data)
 			if ( data )
 			{
 				appendForm( {
@@ -252,6 +253,7 @@ export const UserForm = ( props ) =>
 								rules={ [ { required: true } ] }
 								className=' d-block'>
 								<Select
+									defaultValue={data?.type || null}
 									placeholder="Chọn user type"
 									style={ { width: '100%' } }
 									options={ roleConfig }

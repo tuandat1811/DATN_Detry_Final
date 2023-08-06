@@ -39,6 +39,12 @@ export class UploadController {
 
     @Get(':path')
     seeUploadedFile(@Param('path') image, @Res() res) {
-        return res.sendFile(image, { root: './files' });
+		try {
+			return res.sendFile(image, { root: './files' });
+		} catch (error) {
+			return BaseResponse('error', {},'', 'error');
+		}
+		
+        
     }
 }

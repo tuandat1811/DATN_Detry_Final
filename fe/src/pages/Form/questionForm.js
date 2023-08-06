@@ -67,7 +67,7 @@ export const QuestionForm = ( props ) =>
 		if ( props.type === 'user' )
 		{
 
-			response = await TopicService.getDataList(
+			response = await TopicService.getDataListByUser(
 				{ page: 1, page_size: 1000, status: 'ACTIVE' } );
 		} else
 		{

@@ -38,7 +38,6 @@ export class AnswerController {
 
 
 	@Put(':id')
-	@UseGuards(JwtGuard)
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
 	async updateById(@Param('id') id: number, @Body() updateData: UpdateDto) {
@@ -57,7 +56,6 @@ export class AnswerController {
 	}
 
 	@Delete(':id')
-	@UseGuards(JwtGuard)
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
 	async deleteById(@Param('id') id: number) {
@@ -86,7 +84,6 @@ export class AnswerController {
 	}
 
 	@Get('')
-	@UseGuards(JwtGuard)
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
 	async getLists(@Request() req: any) {
@@ -108,7 +105,6 @@ export class AnswerController {
 	}
 
 	@Get('/user')
-	@UseGuards(JwtGuard)
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
 	async getListsByUser(@Request() req: any) {
@@ -130,7 +126,6 @@ export class AnswerController {
 	}
 
 	@Get(':id')
-	@UseGuards(JwtGuard)
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
 	async findById(@Param('id') id: number) {
