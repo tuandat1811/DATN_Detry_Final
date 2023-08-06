@@ -12,6 +12,7 @@ import { Result } from 'src/entities/result.entity';
 import { CreateDto } from './dtos/create.dto';
 import { UpdateDto } from './dtos/update.dto';
 import { BadRequestException } from 'src/helpers/response/badRequest';
+import { Topic } from 'src/entities/topic.entity';
 
 @Injectable()
 export class AnswerService {
@@ -20,13 +21,14 @@ export class AnswerService {
 		@InjectRepository(User) private readonly userRepo: Repository<User>,
 		@InjectRepository(Answer) private readonly answerRepo: Repository<Answer>,
 		@InjectRepository(Question) private readonly questionRepo: Repository<Question>,
+		@InjectRepository(Topic) private readonly topicRepo: Repository<Topic>,
 		@InjectRepository(Result) private readonly resultRepo: Repository<Result>,
 	) { }
 
 	async createData(data: CreateDto) {
-		let question = await this.questionRepo.findOneBy({id: data.question_id});
-		if(_.isEmpty(question)) {
-			throw new BadRequestException({code: 'A0001', message: 'Not found question'});
+		let question = await this.questionRepo.findOneBy({ id: data.question_id });
+		if (_.isEmpty(question)) {
+			throw new BadRequestException({ code: 'A0001', message: 'Not found question' });
 		}
 		data.created_at = new Date();
 		data.updated_at = new Date();
@@ -57,31 +59,54 @@ export class AnswerService {
 	}
 
 	async getLists(paging: IPaging, filters: any, user?: any) {
-		let conditions: any = await this.buildConditions(filters, user);
+		let conditions: any = await this.buildConditions(filters);
+		if(user) {
+			conditions.question = {
+				user_id: user.id
+			};
+		}
 		let relations: any = {
 			question: true,
-			user: true
+			user: true,
+			results: true
 		};
+		console.log(conditions);
 		const [results, total] = await this.answerRepo.findAndCount({
-			where: {},
+			where: conditions,
 			relations: relations,
 			order: { id: 'ASC' },
 			take: paging.page_size,
 			skip: ((paging.page - 1) * paging.page_size),
 		});
-
-		return { result: results, meta: new Paging(paging.page, paging.page_size, total) };
+		let rs: any = results;
+		if(rs?.length > 0 && user) {
+			for(let item of rs) {
+				item.topic = await this.topicRepo.findOne({
+					where: {
+						questions: {
+							id: item.question_id
+						}
+					},
+					relations: {
+						questions: true
+					}
+				});
+			}
+		}
+		return { result: rs, meta: new Paging(paging.page, paging.page_size, total) };
 	}
+
 	
-	async buildConditions(filters: any, user?: any) {
+
+	async buildConditions(filters: any) {
 		const conditions: any = {};
-		
-		
+
+
 		if (filters?.question_id) conditions.question_id = Equal(filters.question_id);
 		if (filters?.question_name && filters?.question_name.trim() != '') {
-			conditions.question = {name: Like(`%${filters?.question_name.trim()}%`)};
+			conditions.question = { name: Like(`%${filters?.question_name.trim()}%`) };
 		}
-		if(filters?.user_id) conditions.user_id = filters.user_id;
+		if (filters?.user_id) conditions.user_id = filters.user_id;
 		return conditions;
 	}
 	async deleteById(id: number) {

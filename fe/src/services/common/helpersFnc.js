@@ -1,5 +1,5 @@
 import { uploadFile } from "../apiService";
-import { DEFAULT_USER } from "../common";
+import { DEFAULT_USER, URL_IMG } from "../common";
 
 // @ts-nocheck
 export const onFileChanged = ( event, oldFile, setFile, setErrorFile ) =>
@@ -56,7 +56,7 @@ export const appendForm = async ( data, form, setFile, hasFile = false ) =>
 				uid: file.length,
 				name: data.avatar,
 				status: 'done',
-				url: data.avatar || DEFAULT_USER,
+				url: URL_IMG + data.avatar || DEFAULT_USER,
 				default: true
 			} );
 			formValue.image = file;
@@ -81,11 +81,8 @@ export const uploadFileAvatar = async ( files ) =>
 				let data = res.data;
 				if ( res?.status === 'success' )
 				{
-					avatar = data.destination;
+					avatar = data.filename;
 				}
-			} else
-			{
-				avatar = files.url
 			}
 		}
 		return avatar;

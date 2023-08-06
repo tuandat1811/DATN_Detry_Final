@@ -105,13 +105,13 @@ const QuestionUser = () =>
 										</td>
 										<td>
 											<div className="d-flex">
-												<Link to="#" className="d-flex justify-content-center"
+												<Link to="#" className="btn btn-info"
 													onClick={ () =>
 													{
 														setShowModal( true )
 														setId( item.id )
 													} }>
-													Edit
+													Chỉnh sửa
 												</Link>
 											</div>
 

@@ -6,10 +6,11 @@ import { Result } from 'src/entities/result.entity';
 import { User } from 'src/entities/user.entity';
 import { AnswerService } from './answer.service';
 import { AnswerController } from './answer.controller';
+import { Topic } from 'src/entities/topic.entity';
 
 @Module({
 	imports: [
-		TypeOrmModule.forFeature([User, Question, Result, Answer]),
+		TypeOrmModule.forFeature([User, Question, Result, Answer, Topic]),
 		// forwardRef(() => ClassesModule),
 		// forwardRef(() => CoursesModule)
 	],

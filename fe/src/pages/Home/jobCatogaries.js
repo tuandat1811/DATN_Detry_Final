@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Row, Container } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import { DEFAULT_IMG, onErrorImg } from "../../services/common";
+import { DEFAULT_IMG, URL_IMG, onErrorImg } from "../../services/common";
 
 const Jobcatogaries = (props) => {
 
@@ -25,7 +25,9 @@ const Jobcatogaries = (props) => {
                 <div className="popu-category-box rounded text-center">
                   <div className="popu-category-icon icons-md">
                     {/* <Icon icon={item.icon} className="text-primary" /> */}
-					<img className="w-100" style={{border: '0.5px solid', borderRadius: '10px'}} src={item.logo || DEFAULT_IMG} onError={onErrorImg}/>
+					<img className="w-100" 
+					style={{border: '0.5px solid', borderRadius: '10px'}} 
+					src={URL_IMG + item.logo || DEFAULT_IMG} onError={onErrorImg}/>
                   </div>
                   <div className="popu-category-content mt-4">
                     <Link to={'/topic-company/'+ item.id} className="text-dark stretched-link">
@@ -36,6 +38,7 @@ const Jobcatogaries = (props) => {
                 </div>
               </Col>
             ))}
+			
           </Row>
           <Row>
             <Col md={12}>

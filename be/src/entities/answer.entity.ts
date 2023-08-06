@@ -1,7 +1,8 @@
 import { Max, max } from "class-validator";
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Question } from "./question.entity";
+import { Result } from "./result.entity";
 
 
 
@@ -30,7 +31,11 @@ export class Answer {
 	question: Question;
 
 	@ManyToOne(() => User, ex => ex.answers)
-	@JoinColumn({ name: "question_id", referencedColumnName: "id"})
+	@JoinColumn({ name: "user_id", referencedColumnName: "id"})
 	user: User;
+
+	@OneToMany(() => Result, ex => ex.answer)
+	@JoinColumn({ name: 'answer_id', referencedColumnName: 'id'})
+	results: Result[];
 
 }

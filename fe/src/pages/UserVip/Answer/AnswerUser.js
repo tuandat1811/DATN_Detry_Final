@@ -8,15 +8,18 @@ import { UserService } from "../../../services/user";
 import { genStatusClass, genUserType } from "../../../services/common/helpersFnc";
 import PaginationPage from "../../Jobs/JobList2/Pagination";
 import { UserForm } from "../../Form/adminUserForm";
-import {
+import
+{
 	EditOutlined
-  } from '@ant-design/icons';
+} from '@ant-design/icons';
 import { CompanyForm } from "../../Form/companyForm";
 import { CompanyService } from "../../../services/company";
 import { QuestionForm } from "../../Form/questionForm";
 import { QuestionService } from "../../../services/question";
 import { TopicForm } from "../../Form/topicForm";
 import { TopicService } from "../../../services/topic";
+import { AnswerService } from "../../../services/answer";
+import { AnswerResultForm } from "../../Form/answerResultForm";
 
 
 
@@ -32,7 +35,8 @@ const AnswerUser = () =>
 	const [ paging, setPaging ] = useState( { page: 1, page_size: 6, total: 0 } );
 	const [ params, setParams ] = useState( {} );
 	const [ showModal, setShowModal ] = useState( false );
-	const [ id, setId ] = useState( false );
+	const [ data, setData ] = useState( null );
+
 	const dispatch = useDispatch();
 
 	const getDataList = async ( params ) =>
@@ -44,7 +48,7 @@ const AnswerUser = () =>
 		}
 		setSearchParams( params );
 		dispatch( toggleShowLoading( true ) );
-		const response = await TopicService.getDataList( params );
+		const response = await AnswerService.getAnswerUser( params );
 		dispatch( toggleShowLoading( false ) );
 		if ( response?.status === 'success' )
 		{
@@ -73,8 +77,8 @@ const AnswerUser = () =>
 							<th className="text-nowrap">Chủ đề</th>
 							<th className="text-nowrap">Câu hỏi</th>
 							<th className="text-nowrap">Thí sinh</th>
+							<th className="text-nowrap">Câu trả lời</th>
 							<th className="text-nowrap">Điểm số</th>
-							<th className="text-nowrap">Thời gian</th>
 							<th className="text-nowrap">Action</th>
 						</tr>
 					</thead>
@@ -85,27 +89,58 @@ const AnswerUser = () =>
 								return (
 									< tr key={ key } className="table-product">
 										<td className="text-gray-900 text-center">{ ( paging.page - 1 ) * paging.page_size + ( key + 1 ) }</td>
-										
-										<td className="text-gray-900 text-nowrap">
-											{ item.name }
-										</td>
-										<td className="text-gray-900 text-break" style={{minWidth: '200px'}}>
-											{ item.company?.name || 'N/A' }
-										</td>
 
+										<td className="text-gray-900 text-nowrap" style={ { minWidth: '100px' } }>
+											{ item.topic?.name || 'N/A' }
+										</td>
+										<td className="text-gray-900 text-break" style={ { minWidth: '100px' } }>
+											{ item.question?.name || 'N/A' }
+										</td>
 										<td className="text-gray-900 text-break">
-											{item.user?.name || 'N/A'}
+											{ item.user?.name || 'N/A' }
+										</td>
+										<td className="text-gray-900 text-break" style={ { minWidth: '100px' } }>
+											{ item.content_answer || 'N/A' }
+										</td>
+										<td className="text-gray-900 text-break">
+											{ console.log( item.results[ 0 ] ) }
+											{ item.results?.length > 0 && item.results[ 0 ].point || <span className="text-danger">Chưa chấm</span> }
 										</td>
 										<td>
-											<div className="d-flex">
-												<Link to="#" className="d-flex justify-content-center"
-													onClick={ () =>
-													{
-														setShowModal( true )
-														setId( item.id )
-													} }>
-													Edit
-												</Link>
+											<div className="d-flex text-nowrap">
+												{
+													item.results?.length > 0 ?
+														<Link to="#" className="btn btn-info"
+															onClick={ () =>
+															{
+																setShowModal( true )
+																let obj = {
+																	content_answer: item.content_answer,
+																	content_question: item.question?.content_question,
+																	answer_id: item.id,
+																	question_id: item.question_id,
+																	id: item.results[0].id
+																}
+																setData( obj )
+															} }>
+															Chỉnh sửa
+														</Link>
+														:
+														<Link to="#" className="btn btn-success"
+															onClick={ () =>
+															{
+																setShowModal( true )
+																let obj = {
+																	content_answer: item.content_answer,
+																	content_question: item.question?.content_question,
+																	answer_id: item.id,
+																	question_id: item.question_id
+																}
+																setData( obj )
+															} }>
+															Chấm điểm
+														</Link>
+												}
 											</div>
 
 										</td>
@@ -135,13 +170,13 @@ const AnswerUser = () =>
 					getDataList={ getDataList }
 					params={ params }
 				/>
-				<TopicForm
+				<AnswerResultForm
 					getDataList={ getDataList }
 					paging={ paging }
 					params={ params }
 					setShowModal={ setShowModal }
-					id={ id }
-					setId={ setId }
+					data={ data }
+					setData={ setData }
 					showModal={ showModal }
 				/>
 			</div>

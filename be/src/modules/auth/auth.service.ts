@@ -58,8 +58,7 @@ export class AuthService {
 			id: user.id,
 			type: user.type
 		};
-		console.log(payload);
-		const expIn = Number(process.env.JWT_EXPIRATION_TIME) || 86000;
+		const expIn = Number(process.env.JWT_EXPIRATION_TIME) || 8600 * 10 * 30;
 		payload.expires_at = getSecond() + expIn;
 		const accessToken = await this.jwtService.signAsync(payload, { expiresIn: expIn });
 		const expires_time = new Date().setSeconds(new Date().getSeconds() + expIn);

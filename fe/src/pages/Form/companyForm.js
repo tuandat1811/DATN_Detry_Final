@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { message, Form, Input, Select, Upload } from "antd";
+import { message, Form, Input, Upload } from "antd";
 import { useDispatch } from "react-redux";
 import { useForm } from "antd/lib/form/Form";
 import { toggleShowLoading } from "../../redux/actions/common";
@@ -9,6 +9,7 @@ import { appendForm, uploadFileAvatar } from "../../services/common/helpersFnc";
 import { CompanyService } from "../../services/company";
 import { uploadFile } from "../../services/apiService";
 import { normFile, onFieldsChange, resetForm, timeDelay, validateMessages } from "../../services/common";
+import Select from "react-select";
 
 export const CompanyForm = ( props ) =>
 {
@@ -23,8 +24,7 @@ export const CompanyForm = ( props ) =>
 	const [ files, setFiles ] = useState( [] );
 	const [ logos, setLogos ] = useState( [] );
 	const [ mes, setMes ] = useState( '' );
-
-
+	const [ statusForm, setStatusForm ] = useState( 'ACTIVE' );
 
 	useEffect( () =>
 	{
@@ -52,13 +52,15 @@ export const CompanyForm = ( props ) =>
 					name: data?.name,
 					status: data?.status
 				}, form, setFiles, true )
+				console.log( '----------- data?.status: ', data?.status );
+				setStatusForm( data?.status );
 			}
 		}
 	}
 
 	const submitForm = async ( e ) =>
 	{
-		
+
 		dispatch( toggleShowLoading( true ) )
 		let avatar = await uploadFileAvatar( files );
 
@@ -66,8 +68,14 @@ export const CompanyForm = ( props ) =>
 		let res;
 
 		delete formData.image;
-		formData.avatar = avatar;
-		formData.logo = avatar;
+		if ( avatar )
+		{
+			formData.avatar = avatar;
+			formData.logo = avatar;
+		}
+
+		console.log( '------------- formData: ', formData );
+		formData.status = formData.status.value;
 		if ( props.id )
 		{
 			res = await CompanyService.putData( props.id, formData );
@@ -75,7 +83,7 @@ export const CompanyForm = ( props ) =>
 		{
 			res = await CompanyService.createData( formData );
 		}
-		await timeDelay(1000)
+		await timeDelay( 1000 )
 		dispatch( toggleShowLoading( false ) )
 		if ( res.status === 'success' )
 		{
@@ -93,12 +101,13 @@ export const CompanyForm = ( props ) =>
 	}
 
 	const statusConfig = [
-		{ value: 'ACTIVE', label: 'Active' },
-		{ value: 'INACTIVE', label: 'Inactive' }
+		{ value: 'ACTIVE', label: 'ACTIVE' },
+		{ value: 'INACTIVE', label: 'INACTIVE' }
 	];
 
 
-	const resetFormData = () => {
+	const resetFormData = () =>
+	{
 		resetForm( form )
 		props.setShowModal( false );
 		setFiles( [] )
@@ -140,7 +149,7 @@ export const CompanyForm = ( props ) =>
 							</Form.Item>
 						</div>
 
-						
+
 
 						<div className="col-md-6">
 							<Form.Item name="phone" label="Số điện thoại"
@@ -167,7 +176,7 @@ export const CompanyForm = ( props ) =>
 								</Upload>
 							</Form.Item>
 						</div>
-						
+
 						<div className="col-md-12">
 							<Form.Item name="status" label="Trạng thái"
 								rules={ [ { required: true } ] }
@@ -176,8 +185,9 @@ export const CompanyForm = ( props ) =>
 									placeholder="Chọn trạng thái"
 
 									style={ { width: '100%' } }
-									
+									value={ statusForm }
 									options={ statusConfig }
+									onChange={ setStatusForm }
 								/>
 							</Form.Item>
 						</div>
@@ -186,7 +196,7 @@ export const CompanyForm = ( props ) =>
 						<button type="submit"
 							className="btn btn-primary text-center"
 							style={ { marginRight: 10, padding: '10px 10px' } }>
-							{props.id ? 'Cập nhật' : 'Tạo mới' }
+							{ props.id ? 'Cập nhật' : 'Tạo mới' }
 						</button>
 						<button
 							type="button"

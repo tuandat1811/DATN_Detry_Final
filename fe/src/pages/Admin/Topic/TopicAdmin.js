@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "reactstrap";
 import { Link, useSearchParams } from "react-router-dom";
-import { DEFAULT_USER, EMPTY_IMG, customDate, onErrorUser } from "../../../services/common";
+import { DEFAULT_IMG, DEFAULT_USER, EMPTY_IMG, URL_IMG, customDate, onErrorImg, onErrorUser } from "../../../services/common";
 import { useDispatch } from "react-redux";
 import { toggleShowLoading } from "../../../redux/actions/common";
 import { UserService } from "../../../services/user";
@@ -77,6 +77,7 @@ const TopicAdmin = () =>
 					<thead>
 						<tr>
 							<th>ID</th>
+							<th className="text-nowrap">Avatar</th>
 							<th className="text-nowrap">Tiêu đề</th>
 							<th className="text-nowrap">Công ty</th>
 							<th className="text-nowrap">Người tạo</th>
@@ -90,7 +91,11 @@ const TopicAdmin = () =>
 								return (
 									< tr key={ key } className="table-product">
 										<td className="text-gray-900 text-center">{ ( paging.page - 1 ) * paging.page_size + ( key + 1 ) }</td>
-										
+										<td className="d-flex align-items-center">
+											<img width="70" height="70"
+												style={ { border: "0.5px solid gray", borderRadius: '5px' } }
+												src={ URL_IMG + item.avatar || DEFAULT_IMG } alt={ item.name } onError={ onErrorImg } />
+										</td>
 										<td className="text-gray-900 text-nowrap">
 											{ item.name }
 										</td>
@@ -103,13 +108,13 @@ const TopicAdmin = () =>
 										</td>
 										<td>
 											<div className="d-flex">
-												<Link to="#" className="d-flex justify-content-center"
+												<Link to="#" className="btn btn-info"
 													onClick={ () =>
 													{
 														setShowModal( true )
 														setId( item.id )
 													} }>
-													Edit
+													Chỉnh sửa
 												</Link>
 											</div>
 

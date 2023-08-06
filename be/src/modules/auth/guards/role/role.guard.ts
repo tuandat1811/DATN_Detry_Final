@@ -16,7 +16,6 @@ export class RoleGuard implements CanActivate {
 
 		const request = context.switchToHttp().getRequest();
 		const user = request.user;
-		console.log(user);
 		if (_.isEmpty(user)) {
 			throw new BadRequestException({ code: 'LG0401' });
 		}

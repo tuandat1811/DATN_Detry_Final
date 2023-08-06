@@ -7,7 +7,8 @@ import { useDispatch } from "react-redux";
 import { CompanyService } from "../../services/company";
 import { TopicService } from "../../services/topic";
 import { toggleShowLoading } from "../../redux/actions/common";
-import { DEFAULT_IMG, onErrorImg } from "../../services/common";
+import { DEFAULT_IMG, URL_IMG, onErrorImg } from "../../services/common";
+import NoDataPage from "../../components/noData";
 
 
 
@@ -112,7 +113,7 @@ const TopicCompany = () =>
 											<Col md={ 2 }>
 												<Link to={ "/topic-question/" + topic.id }>
 													<img
-														src={ topic.avatar || DEFAULT_IMG }
+														src={ URL_IMG + topic.avatar || DEFAULT_IMG }
 														alt=""
 														onError={ onErrorImg }
 														className="img-fluid rounded-3"
@@ -149,6 +150,7 @@ const TopicCompany = () =>
 							</Col>
 						) ) }
 					</Row>
+					<NoDataPage total={paging.total || 0}/>
 					<PaginationPage
 						data={ topics }
 						paging={ paging }

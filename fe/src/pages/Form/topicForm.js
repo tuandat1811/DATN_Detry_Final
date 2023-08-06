@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { message, Form, Input, Select, Upload } from "antd";
+import { message, Form, Input, Upload } from "antd";
 import { useDispatch } from "react-redux";
 import { useForm } from "antd/lib/form/Form";
 import { toggleShowLoading } from "../../redux/actions/common";
 import { UserService } from "../../services/user";
 import { appendForm, uploadFileAvatar } from "../../services/common/helpersFnc";
 import { CompanyService } from "../../services/company";
-import { normFile, onFieldsChange, resetForm, timeDelay, validateMessages } from "../../services/common";
+import { URL_IMG, normFile, onFieldsChange, resetForm, timeDelay, validateMessages } from "../../services/common";
+import { TopicService } from "../../services/topic";
+import Select from "react-select";
 
 export const TopicForm = ( props ) =>
 {
@@ -36,13 +38,12 @@ export const TopicForm = ( props ) =>
 	const getDetail = async ( id ) =>
 	{
 		dispatch( toggleShowLoading( true ) )
-		const rs = await UserService.getDetailData( id );
+		const rs = await TopicService.getDetailData( id );
 		dispatch( toggleShowLoading( false ) )
 
 		if ( rs.status === 'success' )
 		{
 			let data = rs.data;
-			console.log( data );
 			if ( data )
 			{
 				appendForm( {
@@ -92,13 +93,19 @@ export const TopicForm = ( props ) =>
 		let res;
 
 		delete formData.image;
-		formData.avatar = avatar;
+		if ( avatar )
+		{
+			formData.avatar = avatar;
+		}
+		if (formData.company_id && formData.company_id.value)
+			formData.company_id = formData.company_id.value;
+
 		if ( props.id )
 		{
-			res = await UserService.putData( props.id, formData );
+			res = await TopicService.putData( props.id, formData );
 		} else
 		{
-			res = await UserService.createData( formData );
+			res = await TopicService.createData( formData );
 		}
 		await timeDelay( 1000 )
 		dispatch( toggleShowLoading( false ) )
@@ -128,7 +135,7 @@ export const TopicForm = ( props ) =>
 		props.setId( null )
 	}
 
-	
+
 	return (
 		<Modal show={ props.showModal } size="lg" dialogClassName="dialog-style">
 			<Modal.Header style={ { justifyContent: 'center' } }>

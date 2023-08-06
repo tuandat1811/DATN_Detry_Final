@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { message, Form, Input, Select, Upload } from "antd";
+import { message, Form, Input, Upload } from "antd";
 import { useDispatch } from "react-redux";
 import { useForm } from "antd/lib/form/Form";
 import { toggleShowLoading } from "../../redux/actions/common";
@@ -11,6 +11,7 @@ import { uploadFile } from "../../services/apiService";
 import { normFile, onFieldsChange, resetForm, timeDelay, validateMessages } from "../../services/common";
 import { TopicService } from "../../services/topic";
 import { QuestionService } from "../../services/question";
+import Select from "react-select";
 
 export const QuestionForm = ( props ) =>
 {
@@ -96,6 +97,9 @@ export const QuestionForm = ( props ) =>
 
 		let formData = { ...e };
 		let res;
+
+		if (formData.topic_id && formData.topic_id.value)
+			formData.topic_id = formData.topic_id.value;
 
 		if ( props.id )
 		{

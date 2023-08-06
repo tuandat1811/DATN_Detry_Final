@@ -6,6 +6,10 @@ export const AnswerService = {
 		const params = buildFilter(filters);
 		return await getMethod('answers', params);
 	},
+	async getAnswerUser(filters) {
+		const params = buildFilter(filters);
+		return await getMethod('answers/user', params);
+	},
 	async getDetailData(id) {
 		return await getMethod('answers/' + id);
 	},

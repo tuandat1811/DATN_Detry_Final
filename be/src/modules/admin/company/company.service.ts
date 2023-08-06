@@ -90,7 +90,7 @@ export class CompanyService {
 	async getLists(paging: IPaging, filters: any, user?: any) {
 		let conditions: any = await this.buildConditions(filters);
 		if(filters.user_id) {
-			conditions.user = {
+			conditions.users = {
 				id: filters.user_id
 			}
 		}

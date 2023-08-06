@@ -4,6 +4,7 @@ import CompanyDetails from "./CompanyDetails";
 import Section from "./Section";
 import { CompanyService } from "../../../services/company";
 import { useSearchParams } from "react-router-dom";
+import NoDataPage from "../../../components/noData";
 
 const CompanyList = () =>
 {
@@ -48,6 +49,7 @@ const CompanyList = () =>
 					setParams={setParams}
 					/>
 				</Container>
+				<NoDataPage total={paging.total || 0}/>
 			</section>
 		</React.Fragment>
 	);

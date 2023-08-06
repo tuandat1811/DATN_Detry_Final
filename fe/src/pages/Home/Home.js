@@ -5,7 +5,7 @@ import { CompanyService } from "../../services/company";
 import { TopicService } from "../../services/topic";
 
 const Home = () => {
-	document.title = 'Trang chủ'
+	document.title = 'Trang chủ';
 	const [companies, setCompanies] = useState([]);
 	const [topics, setTopics] = useState([]);
 	// const dispatch = useDispatch()

@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 import withRouter from "../../components/withRouter"
 
 import logoGlobal from "../../assets/images/logo.png";
-import { DEFAULT_USER, checkIsAdmin, checkIsUser, checkLogin, getItem, onErrorUser } from "../../services/common";
+import { DEFAULT_USER, URL_IMG, checkIsAdmin, checkIsUser, checkLogin, getItem, onErrorUser } from "../../services/common";
 
 const NavBar = ( props ) =>
 {
@@ -231,7 +231,7 @@ const NavBar = ( props ) =>
 									aria-expanded="false"
 								>
 									<img
-										src={ avatar || DEFAULT_USER }
+										src={ URL_IMG + avatar || DEFAULT_USER }
 										alt="mdo"
 										width="35"
 										height="35"

@@ -8,6 +8,7 @@ import { QuestionService } from "../../services/question";
 import { checkIsAdmin, checkIsUser, checkLogin, customDate } from "../../services/common";
 import { AnswerResultForm } from "./answersForm";
 import { message } from "antd";
+import NoDataPage from "../../components/noData";
 
 const QuestionDetail = () =>
 {
@@ -152,7 +153,7 @@ const QuestionDetail = () =>
 												{ item.content_question }
 											</p>
 											{
-												!checkIsAdmin() && !checkIsUser() &&
+												
 												<div className="border-top-muted">
 													{
 														item.answers ?
@@ -207,6 +208,7 @@ const QuestionDetail = () =>
 						}
 
 					</Row>
+					<NoDataPage total={paging.total || 0}/>
 				</Container>
 			</section>
 			<AnswerResultForm

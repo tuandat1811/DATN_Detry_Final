@@ -115,12 +115,11 @@ export class AnswerController {
 		try {
 			
 			const filters: any = await this.buildFilter(req);
-			filters.user_id = req.user.type == USER_TYPE.USER && req.user.id || null;
 			const paging: IPaging = {
 				page: req.query.page || 1,
 				page_size: req.query.page_size || 20,
 			};
-			let responseData: any = await this.answerService.getLists(paging, filters);
+			let responseData: any = await this.answerService.getLists(paging, filters, req.user);
 
 			return BaseResponse(HTTP_STATUS.success, responseData, '', 'Successful');
 

@@ -55,7 +55,10 @@ const RightSideContent = ( props ) =>
 
 
 			delete formData.image;
-			formData.avatar = avatar;
+			if ( avatar )
+			{
+				formData.avatar = avatar;
+			}
 		} else
 		{
 
@@ -69,11 +72,11 @@ const RightSideContent = ( props ) =>
 			if ( res.status === 'success' )
 			{
 				setMes( '' )
-				alert("Update password success");
+				alert( "Update password success" );
 				message.success( 'Successfully', 10 );
 			} else
 			{
-				alert(res.message);
+				alert( res.message );
 				setMes( res.message );
 				message.error( res.message )
 			}

@@ -9,6 +9,8 @@ export const NOT_FOUND = notfound;
 export const DEFAULT_USER = defaultUser;
 
 export const EMPTY_IMG = emtyImg;
+
+export const URL_IMG=process.env.REACT_APP_API+'upload/';
 export const getItem = ( key ) =>
 {
 	return localStorage.getItem( key ) || null;

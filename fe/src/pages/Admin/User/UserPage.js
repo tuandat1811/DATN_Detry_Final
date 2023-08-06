@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "reactstrap";
 import { Link, useSearchParams } from "react-router-dom";
-import { DEFAULT_USER, EMPTY_IMG, customDate, onErrorUser } from "../../../services/common";
+import { DEFAULT_USER, EMPTY_IMG, URL_IMG, customDate, onErrorUser } from "../../../services/common";
 import { useDispatch } from "react-redux";
 import { toggleShowLoading } from "../../../redux/actions/common";
 import { UserService } from "../../../services/user";
@@ -90,7 +90,7 @@ const UserPage = () =>
 										<td className="d-flex align-items-center">
 											<img width="70" height="70"
 												style={ { border: "0.5px solid gray", borderRadius: '5px' } }
-												src={ item.avatar || DEFAULT_USER } alt={ item.name } onError={ onErrorUser } />
+												src={ URL_IMG + item.avatar || DEFAULT_USER } alt={ item.name } onError={ onErrorUser } />
 										</td>
 										<td className="text-gray-900 text-nowrap">
 											{ item.name }
@@ -108,13 +108,13 @@ const UserPage = () =>
 										<td className="text-gray-900">{ genStatusClass( item.status ) }</td>
 										<td>
 											<div className="d-flex">
-												<Link to="#" className="d-flex justify-content-center"
+												<Link to="#" className="btn btn-info"
 													onClick={ () =>
 													{
 														setShowModal( true )
 														setId( item.id )
 													} }>
-													Edit
+													Chỉnh sửa
 												</Link>
 											</div>
 

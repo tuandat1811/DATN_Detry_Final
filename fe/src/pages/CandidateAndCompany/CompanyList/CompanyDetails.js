@@ -12,7 +12,7 @@ import jobImage7 from "../../../assets/images/featured-job/img-07.png";
 import jobImage8 from "../../../assets/images/featured-job/img-08.png";
 import jobImage9 from "../../../assets/images/featured-job/img-09.png";
 import jobImage10 from "../../../assets/images/featured-job/img-10.png";
-import { DEFAULT_IMG, onErrorImg } from "../../../services/common";
+import { DEFAULT_IMG, URL_IMG, onErrorImg } from "../../../services/common";
 import PaginationPage from "../../Jobs/JobList2/Pagination";
 
 const CompanyDetails = ( props ) =>
@@ -44,7 +44,7 @@ const CompanyDetails = ( props ) =>
 									</div>
 								) } */}
 								<img
-									src={ companyDetailsNew.avatar || DEFAULT_IMG }
+									src={ URL_IMG + companyDetailsNew.avatar || DEFAULT_IMG }
 									alt=""
 									onError={ onErrorImg }
 									className="img-fluid rounded-3"

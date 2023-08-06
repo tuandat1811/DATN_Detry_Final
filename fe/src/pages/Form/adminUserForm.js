@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { message, Form, Input, Select, Upload } from "antd";
+import { message, Form, Input, Upload } from "antd";
 import { useDispatch } from "react-redux";
 import { useForm } from "antd/lib/form/Form";
 import { toggleShowLoading } from "../../redux/actions/common";
@@ -9,6 +9,7 @@ import { appendForm, uploadFileAvatar } from "../../services/common/helpersFnc";
 import { CompanyService } from "../../services/company";
 import { uploadFile } from "../../services/apiService";
 import { normFile, onFieldsChange, resetForm, timeDelay, validateMessages } from "../../services/common";
+import Select from "react-select";
 
 export const UserForm = ( props ) =>
 {
@@ -23,7 +24,9 @@ export const UserForm = ( props ) =>
 	const [ files, setFiles ] = useState( [] );
 	const [ companyConfigs, setCompanyConfigs ] = useState( [] );
 	const [ mes, setMes ] = useState( '' );
-
+	const [formStatus, setFormStatus] = useState({
+		value: 'ACTIVE', label: 'ACTIVE'
+	})
 	useEffect( () =>
 	{
 		getCompanies()
@@ -59,6 +62,12 @@ export const UserForm = ( props ) =>
 					name: data?.name,
 					email: data?.email
 				}, form, setFiles, true )
+
+				if (data?.status === 'ACTIVE') {
+					setFormStatus({
+						value: 'ACTIVE', label: 'ACTIVE'
+					})
+				}
 			}
 		}
 	}
@@ -83,7 +92,7 @@ export const UserForm = ( props ) =>
 
 	const submitForm = async ( e ) =>
 	{
-		
+
 		dispatch( toggleShowLoading( true ) )
 		let avatar = await uploadFileAvatar( files );
 
@@ -91,7 +100,20 @@ export const UserForm = ( props ) =>
 		let res;
 
 		delete formData.image;
-		formData.avatar = avatar;
+		if ( avatar )
+		{
+			formData.avatar = avatar;
+		}
+		console.log('----------- formData: ', formData);
+		if (formData.company_id && formData.company_id.value)
+			formData.company_id = formData.company_id.value;
+
+		if (formData.status && formData.status.value)
+			formData.status = formData.status.value;
+
+		if (formData.type && formData.type.value)
+			formData.type = formData.type.value;
+
 		if ( props.id )
 		{
 			res = await UserService.putData( props.id, formData );
@@ -117,8 +139,8 @@ export const UserForm = ( props ) =>
 	}
 
 	const statusConfig = [
-		{ value: 'ACTIVE', label: 'Active' },
-		{ value: 'INACTIVE', label: 'Inactive' }
+		{ value: 'ACTIVE', label: 'ACTIVE' },
+		{ value: 'INACTIVE', label: 'INACTIVE' }
 	];
 
 	const roleConfig = [
@@ -242,9 +264,8 @@ export const UserForm = ( props ) =>
 								className=' d-block'>
 								<Select
 									placeholder="Chọn trạng thái"
-
 									style={ { width: '100%' } }
-									
+									defaultValue={formStatus}
 									options={ statusConfig }
 								/>
 							</Form.Item>

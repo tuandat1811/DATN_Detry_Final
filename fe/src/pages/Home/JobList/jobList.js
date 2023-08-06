@@ -19,7 +19,8 @@ import Fulltime from "../JobList/Fulltime.js";
 import Parttime from "../JobList/Parttime.js";
 import RecentJobs from "./RecentJobs";
 import { Link } from "react-router-dom";
-import { DEFAULT_IMG, onErrorImg } from "../../../services/common";
+import { DEFAULT_IMG, URL_IMG, onErrorImg } from "../../../services/common";
+import NoDataPage from "../../../components/noData";
 
 const JobList = ( props ) =>
 {
@@ -56,7 +57,7 @@ const JobList = ( props ) =>
 												<Col md={ 2 }>
 													<Link to={ "/topic-question/" + topic.id }>
 														<img
-															src={ topic.avatar || DEFAULT_IMG }
+															src={ URL_IMG + topic.avatar || DEFAULT_IMG }
 															alt=""
 															onError={ onErrorImg }
 															className="img-fluid rounded-3"
@@ -94,6 +95,7 @@ const JobList = ( props ) =>
 							}
 							)
 						}
+						
 					</Row>
 					<Row>
 						<Col md={ 12 }>

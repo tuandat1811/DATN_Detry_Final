@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Question } from "./question.entity";
+import { Answer } from "./answer.entity";
 
 
 
@@ -40,4 +41,8 @@ export class Result {
 	@ManyToOne(() => User, ex => ex.results)
 	@JoinColumn({ name: "user_id", referencedColumnName: "id"})
 	user: User;
+
+	@ManyToOne(() => Answer, ex => ex.results)
+	@JoinColumn({ name: "answer_id", referencedColumnName: "id"})
+	answer: Answer;
 }

@@ -15,8 +15,7 @@ export class ResultController {
 	constructor(private readonly resultService: ResultService) { }
 
 	@Post('')
-	@UseGuards(JwtGuard)
-	@UseGuards(new RoleGuard([USER_TYPE.USER]))
+	@UseGuards(JwtGuard, new RoleGuard([USER_TYPE.USER]))
 	@ApiResponse({ status: 200, description: 'success' })
 	async createData(
 		@Body() formDto: CreateDto,
@@ -39,8 +38,7 @@ export class ResultController {
 
 
 	@Put(':id')
-	@UseGuards(JwtGuard)
-	@UseGuards(new RoleGuard([USER_TYPE.USER]))
+	@UseGuards(JwtGuard, new RoleGuard([USER_TYPE.USER]))
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
 	async updateById(@Param('id') id: number, @Body() updateData: UpdateDto) {
@@ -59,8 +57,7 @@ export class ResultController {
 	}
 
 	@Delete(':id')
-	@UseGuards(JwtGuard)
-	@UseGuards(new RoleGuard([USER_TYPE.USER]))
+	@UseGuards(JwtGuard, new RoleGuard([USER_TYPE.USER]))
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
 	async deleteById(@Param('id') id: number) {
