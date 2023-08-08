@@ -15,6 +15,16 @@ Introducing a cutting-edge UI/UX testing product specifically designed to empowe
 
 ## Acknowledgements
 
+## Demo
+![image](https://github.com/tuandat1811/DATN_Detry_Final/assets/69025561/fd9d7c7f-1d81-46dd-9f5d-4f9a827bc58e)
+![image](https://github.com/tuandat1811/DATN_Detry_Final/assets/69025561/76ed5544-d13e-4d3c-9a3c-0b9844d7fe32)
+![image](https://github.com/tuandat1811/DATN_Detry_Final/assets/69025561/c2fc45d8-1874-47ee-9538-1f216a7354b4)
+![image](https://github.com/tuandat1811/DATN_Detry_Final/assets/69025561/3f495cc5-7b13-4489-81ef-efb908052589)
+
+
+
+
+
  - [NextJS Document](https://nextjs.org/docs)
  - [NestJS Document](https://docs.nestjs.com/)
  - [NodeJS Document](https://nodejs.org/en/docs)
