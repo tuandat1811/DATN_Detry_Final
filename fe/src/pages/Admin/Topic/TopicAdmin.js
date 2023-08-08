@@ -117,19 +117,19 @@ const TopicAdmin = () =>
 												style={ { border: "0.5px solid gray", borderRadius: '5px' } }
 												src={ URL_IMG + item.avatar || DEFAULT_IMG } alt={ item.name } onError={ onErrorImg } />
 										</td>
-										<td className="text-gray-900 text-nowrap">
+										<td className="text-gray-900 text-break" style={{minWidth: '100px'}}>
 											{ item.name }
 										</td>
-										<td className="text-gray-900 text-break" style={ { minWidth: '200px' } }>
+										<td className="text-gray-900 text-break" style={ { minWidth: '100px' } }>
 											{ item.company?.name || 'N/A' }
 										</td>
 
-										<td className="text-gray-900 text-break">
+										<td className="text-gray-900 text-break" style={ { minWidth: '100px' } }>
 											{ item.user?.name || 'N/A' }
 										</td>
 										<td>
 											<div className="d-flex">
-												<Link to="#" className="btn btn-info"
+												<Link to="#" className="btn btn-info text-nowrap"
 													onClick={ () =>
 													{
 														setShowModal( true )
@@ -174,7 +174,8 @@ const TopicAdmin = () =>
 					getDataList={ getDataList }
 					params={ params }
 				/>
-				<TopicForm
+				{showModal && 
+					<TopicForm
 					getDataList={ getDataList }
 					paging={ paging }
 					params={ params }
@@ -183,6 +184,7 @@ const TopicAdmin = () =>
 					setId={ setId }
 					showModal={ showModal }
 				/>
+				}
 
 				<DeleteConfirm
 					deleteData={ deleteData }

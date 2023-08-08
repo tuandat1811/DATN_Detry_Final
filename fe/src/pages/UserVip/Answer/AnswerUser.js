@@ -110,7 +110,7 @@ const AnswerUser = () =>
 											<div className="d-flex text-nowrap">
 												{
 													item.results?.length > 0 ?
-														<Link to="#" className="btn btn-info"
+														<Link to="#" className="btn btn-info text-nowrap"
 															onClick={ () =>
 															{
 																setShowModal( true )

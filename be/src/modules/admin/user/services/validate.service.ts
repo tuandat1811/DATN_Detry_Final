@@ -17,27 +17,36 @@ export class ValidateService {
 			throw new BadRequestException({ code: 'F0001' });
 		}
 		let errorData: any = {};
-
-
-
-		if (userDto.password && !regexPass.test(userDto.password)) {
-			errorData.password = newArrayError(errorData.password, 'Password is invalid!');
+		if (userDto.password) {
+			if(!regexPass.test(userDto.password)) {
+				errorData.password = newArrayError(errorData.password, 'Password không đúng định dạng (chữ và số)!');
+			}
 		}
 
-		if (userDto.username)
+		if (userDto.username) {
+			let userName: any = await this.userRepository.findOne({ where: { username: userDto.username } });
 
-			if (userDto.email) {
-				let userEmail: any = await this.userRepository.findOne({ where: { email: userDto.email } });
-
-				if (!_.isEmpty(userEmail)) {
-					if (isCreated) {
-						errorData.email = newArrayError(errorData.email, 'Email is existed');
-					}
-					else if (userEmail.id != user_id) {
-						errorData.email = newArrayError(errorData.email, 'Email is existed');
-					}
+			if (!_.isEmpty(userName)) {
+				if (isCreated) {
+					errorData.username = newArrayError(errorData.username, 'Tên đăng nhập đã tồn tại');
+				}
+				else if (userName.id != user_id) {
+					errorData.username = newArrayError(errorData.username, 'Tên đăng nhập đã tồn tại');
 				}
 			}
+		}
+		if (userDto.email) {
+			let email: any = await this.userRepository.findOne({ where: { email: userDto.email } });
+
+			if (!_.isEmpty(email)) {
+				if (isCreated) {
+					errorData.email = newArrayError(errorData.email, 'Email đã tồn tại');
+				}
+				// else if (email.id !== user_id) {
+				// 	errorData.email = newArrayError(errorData.email, 'Email đã tồn tại');
+				// }
+			}
+		}
 
 		if (userDto.phone) {
 
@@ -48,10 +57,10 @@ export class ValidateService {
 			});
 			if (!_.isEmpty(user)) {
 				if (isCreated) {
-					errorData.phone = newArrayError(errorData.phone, 'Phone is existed');
+					errorData.phone = newArrayError(errorData.phone, 'Số điện thoại đã tồn tại');
 				}
 				else if (user.id != user_id) {
-					errorData.phone = newArrayError(errorData.phone, 'Phone is existed');
+					errorData.phone = newArrayError(errorData.phone, 'Số điện thoại đã tồn tại');
 				}
 			}
 		}

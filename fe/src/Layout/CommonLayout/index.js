@@ -16,7 +16,7 @@ const Layout = (props) => {
         <div>
           {/*<TopBar />*/}
           <NavBar />
-          <div className="main-content">
+          <div className="main-content d-flex flex-column justify-content-between" style={{height: '100vh'}}>
             <div className="page-content">{props.children}</div>
             {/* <Subscribe /> */}
             <Footer />

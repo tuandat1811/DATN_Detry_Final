@@ -95,20 +95,20 @@ const UserPage = () =>
 										<td className="text-gray-900 text-nowrap">
 											{ item.name }
 										</td>
-										<td className="text-gray-900">
+										<td className="text-gray-900 text-nowrap">
 											{ item.username }
 										</td>
-										<td className="text-gray-900">
+										<td className="text-gray-900 text-nowrap">
 											{ item.email }
 										</td>
 
-										<td className="text-gray-900 text-break">
+										<td className="text-gray-900 text-nowrap">
 											{ genUserType( item.type ) }
 										</td>
-										<td className="text-gray-900">{ genStatusClass( item.status ) }</td>
+										<td className="text-gray-900 text-nowrap">{ genStatusClass( item.status ) }</td>
 										<td>
 											<div className="d-flex">
-												<Link to="#" className="btn btn-info"
+												<Link to="#" className="btn btn-info text-nowrap"
 													onClick={ () =>
 													{
 														setShowModal( true )

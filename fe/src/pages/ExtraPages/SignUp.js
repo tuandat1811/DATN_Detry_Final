@@ -49,14 +49,20 @@ const SignUp = () =>
 			if ( response?.status == 'success' )
 			{
 				message.success( 'Tạo tài khoản thành công' );
+				await timeDelay( 500 );
 				window.location.href = '/signin';
 			} else if ( response?.status === 'fail' )
 			{
 				let error = response.data;
 				if ( error ) {
-					if ( error.username ) setUsernameError( error.username[ 0 ] );
+					if ( error.username ) setUsernameError( error.username[ 0 ] ) 
+					else setUsernameError('');
+
 					if ( error.password ) setPasswordError( error.password[ 0 ] );
-					if ( error.email ) setEmailError( error.email[ 0 ] );
+					else setPasswordError('');
+
+					if ( error.email ) setEmailError( error.email[ 0 ] ) 
+					else setEmailError('');
 				}
 			} else {
 				message.error( response?.message || 'error' );

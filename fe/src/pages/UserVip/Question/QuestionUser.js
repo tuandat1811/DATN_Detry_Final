@@ -127,7 +127,7 @@ const QuestionUser = () =>
 										</td>
 										<td>
 											<div className="d-flex">
-												<Link to="#" className="btn btn-info"
+												<Link to="#" className="btn btn-info text-nowrap"
 													onClick={ () =>
 													{
 														setShowModal( true )

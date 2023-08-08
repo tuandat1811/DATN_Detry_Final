@@ -225,7 +225,7 @@ export const UserForm = ( props ) =>
 
 						<div className="col-md-6">
 							<Form.Item name="phone" label="Số điện thoại"
-								rules={ [ { required: true, type: { number: true } } ] }
+								// rules={ [ { required: true, type: { number: true } } ] }
 								className=' d-block'>
 								<Input type="number" placeholder='Nhập số điện thoại' />
 							</Form.Item>
@@ -275,10 +275,11 @@ export const UserForm = ( props ) =>
 
 						<div className="col-md-12">
 							<Form.Item name="company_id" label="Công ty"
-								rules={ [ { required: true } ] }
+								// rules={ [ { required: true } ] }
 								className=' d-block'>
 								<Select
 									placeholder="Chọn công ty"
+									defaultInputValue={data?.company_id || ''}
 									// showSearch
 									// filterOption={ ( input, option ) =>
 									// 	( option?.label?.toLowerCase() ).includes( input?.toLowerCase() ) }

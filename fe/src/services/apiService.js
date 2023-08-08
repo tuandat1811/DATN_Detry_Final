@@ -59,7 +59,6 @@ export const postMethod =  (path, data) => {
 }
 
 export const getMethod =  async (path, params) => {
-	console.log(process.env.REACT_APP_API);
 	return await axiosClient.get(`${process.env.REACT_APP_API}${path}`, { params: params})
 		.then(response => {
 			return response;

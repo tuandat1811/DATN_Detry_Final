@@ -12,6 +12,7 @@ import { Form } from "react-bootstrap";
 import { message } from "antd";
 import { useDispatch } from "react-redux";
 import { toggleShowLoading } from "../../redux/actions/common";
+import { timeDelay } from "../../services/common";
 
 const SignIn = () => {
   document.title = "Đăng nhập";
@@ -29,6 +30,7 @@ const SignIn = () => {
 
 	  dispatch(toggleShowLoading(true))
       const response = await AUTH_SERVICE.login(data);
+		await timeDelay(1000);
 	  dispatch(toggleShowLoading(false))
 
       if (response?.status == 'success') {
@@ -37,6 +39,8 @@ const SignIn = () => {
         localStorage.setItem('email', response.data?.user?.email);
         localStorage.setItem('type', response.data?.user?.type);
         localStorage.setItem('avatar', response.data?.user?.avatar);
+		message.success('Đăng nhập thành công');
+		await timeDelay(500)
         window.location.href = '/';
       } else {
         message.error(response?.message || 'error');

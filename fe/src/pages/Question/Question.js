@@ -154,7 +154,7 @@ const QuestionDetail = () =>
 											</p>
 											{
 												
-												<div className="border-top-muted">
+												<div className="border-top-muted pt-4">
 													{
 														item.answers ?
 															<>
