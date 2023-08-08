@@ -63,6 +63,7 @@ export const AnswerResultForm = ( props ) =>
 
 	const reset = () =>
 	{
+		console.log('---------- close modal');
 		resetForm( form )
 		props.setShowModal( false );
 		setMes( '' );
@@ -115,7 +116,9 @@ export const AnswerResultForm = ( props ) =>
 							type="button"
 							className="btn btn-secondary text-center"
 							style={ { marginRight: 10, padding: '10px 10px' } }
-							onClick={ () => reset }>
+							onClick={ () => reset() }
+							// onClick={e => e.stopPropagation()}
+						>
 							Cancel
 						</button>
 					</div>

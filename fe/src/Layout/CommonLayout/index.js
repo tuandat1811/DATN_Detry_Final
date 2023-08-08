@@ -20,7 +20,7 @@ const Layout = (props) => {
             <div className="page-content">{props.children}</div>
             {/* <Subscribe /> */}
             <Footer />
-            <StyleSwitcher />
+            {/*<StyleSwitcher />*/}
             <ScrolltoTop />
           </div>
         </div>
