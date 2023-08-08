@@ -25,9 +25,15 @@ export const UserForm = ( props ) =>
 	const [ companyConfigs, setCompanyConfigs ] = useState( [] );
 	const [ mes, setMes ] = useState( '' );
 	const [ data, setData ] = useState( null );
-	const [formStatus, setFormStatus] = useState({
+	const [ formStatus, setFormStatus ] = useState( {
 		value: 'ACTIVE', label: 'ACTIVE'
-	})
+	} )
+	const [ formCompany, setFormCompany ] = useState( null )
+	const [ formType, setFormType ] = useState( {
+		value: 'DEFAULT', label: 'USER'
+	} )
+
+
 	useEffect( () =>
 	{
 		getCompanies()
@@ -39,6 +45,9 @@ export const UserForm = ( props ) =>
 		if ( props.id )
 		{
 			getDetail( props.id )
+		} else
+		{
+			setData( null )
 		}
 	}, [ props.id ] );
 
@@ -51,7 +60,7 @@ export const UserForm = ( props ) =>
 		if ( rs.status === 'success' )
 		{
 			let data = rs.data;
-			setData(data)
+			setData( data )
 			if ( data )
 			{
 				appendForm( {
@@ -63,15 +72,28 @@ export const UserForm = ( props ) =>
 					name: data?.name,
 					email: data?.email
 				}, form, setFiles, true )
+				const status = statusConfig.find( item => item.value === data.status );
+				setFormStatus( status )
+				const type = roleConfig.find( item => item.value === data.type );
 
-				if (data?.status === 'ACTIVE') {
-					setFormStatus({
-						value: 'ACTIVE', label: 'ACTIVE'
-					})
+				setFormType( {
+					value: type?.value,
+					label: type?.label
+				} )
+				if ( companyConfigs?.length > 0 )
+				{
+					const company = companyConfigs.filter( item => item.value == data.company_id);
+					if(company) {
+					setFormCompany( company[0] )
+
+					}
 				}
+
+
 			}
 		}
 	}
+
 
 	const getCompanies = async () =>
 	{
@@ -87,6 +109,7 @@ export const UserForm = ( props ) =>
 				} )
 				return arr;
 			}, [] );
+			setFormCompany( companies[ 0 ] )
 			setCompanyConfigs( companies );
 		}
 	}
@@ -105,14 +128,13 @@ export const UserForm = ( props ) =>
 		{
 			formData.avatar = avatar;
 		}
-		console.log('----------- formData: ', formData);
-		if (formData.company_id && formData.company_id.value)
+		if ( formData.company_id && formData.company_id.value )
 			formData.company_id = formData.company_id.value;
 
-		if (formData.status && formData.status.value)
+		if ( formData.status && formData.status.value )
 			formData.status = formData.status.value;
 
-		if (formData.type && formData.type.value)
+		if ( formData.type && formData.type.value )
 			formData.type = formData.type.value;
 
 		if ( props.id )
@@ -122,16 +144,22 @@ export const UserForm = ( props ) =>
 		{
 			res = await UserService.createData( formData );
 		}
-		await timeDelay(1000)
+		await timeDelay( 1000 )
 		dispatch( toggleShowLoading( false ) )
 		if ( res.status === 'success' )
 		{
-			props.setShowModal( false );
-			setMes( '' )
-			setFiles( [] )
-			resetForm( form )
+
+			resetFormData()
 			message.success( 'Successfully' )
 			props.getDataList( { ...props.paging, ...props.params, page: 1 } );
+		} else if ( res?.status === 'fail' && res.data )
+		{
+			let errorArr = Object.entries( res.data );
+			if ( errorArr.length > 0 )
+			{
+				let error = errorArr[0];
+				setMes(error[1][0])
+			}
 		} else
 		{
 			setMes( res.message );
@@ -158,15 +186,23 @@ export const UserForm = ( props ) =>
 			label: 'User'
 		},
 	];
-
-
-	const resetFormData = () => {
+	const resetFormData = () =>
+	{
 		resetForm( form )
 		props.setShowModal( false );
 		setFiles( [] )
 		setMes( '' )
+		setData( null )
 		props.setId( null )
+		setFormStatus({
+			value: 'ACTIVE', label: 'ACTIVE'
+		})
+		setFormCompany(companyConfigs[0])
+		setFormType({
+			value: 'DEFAULT', label: 'User'
+		})
 	}
+
 
 	return (
 		<Modal show={ props.showModal } size="lg" dialogClassName="dialog-style">
@@ -253,7 +289,7 @@ export const UserForm = ( props ) =>
 								rules={ [ { required: true } ] }
 								className=' d-block'>
 								<Select
-									defaultValue={data?.type || null}
+									defaultValue={ formType }
 									placeholder="Chọn user type"
 									style={ { width: '100%' } }
 									options={ roleConfig }
@@ -267,7 +303,7 @@ export const UserForm = ( props ) =>
 								<Select
 									placeholder="Chọn trạng thái"
 									style={ { width: '100%' } }
-									defaultValue={formStatus}
+									defaultValue={ formStatus }
 									options={ statusConfig }
 								/>
 							</Form.Item>
@@ -279,7 +315,7 @@ export const UserForm = ( props ) =>
 								className=' d-block'>
 								<Select
 									placeholder="Chọn công ty"
-									defaultInputValue={data?.company_id || ''}
+									// defaultInputValue={ formCompany}
 									// showSearch
 									// filterOption={ ( input, option ) =>
 									// 	( option?.label?.toLowerCase() ).includes( input?.toLowerCase() ) }
@@ -294,7 +330,7 @@ export const UserForm = ( props ) =>
 						<button type="submit"
 							className="btn btn-primary text-center"
 							style={ { marginRight: 10, padding: '10px 10px' } }>
-							{props.id ? 'Cập nhật' : 'Tạo mới' }
+							{ props.id ? 'Cập nhật' : 'Tạo mới' }
 						</button>
 						<button
 							type="button"

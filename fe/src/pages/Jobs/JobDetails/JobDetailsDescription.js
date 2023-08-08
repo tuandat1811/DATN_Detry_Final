@@ -48,7 +48,7 @@ const JobDetailsDescription = () => {
                                             <div className="mb-3">
                                                 <textarea
                                                     className="form-control"
-                                                    placeholder="Nội dung trả lời ...."
+                                                    placeholder="Nội dung feedback ...."
                                                     name="name"
                                                     rows="3"
                                                 ></textarea>

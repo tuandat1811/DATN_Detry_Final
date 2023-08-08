@@ -43,7 +43,7 @@ export class UserService {
 	}
 
 	async updateById(id: number, data: UpdateUserDto) {
-		await this.validateUserService.validateUser(data);
+		await this.validateUserService.validateUser(data, false, id);
 		const newData: any = { ...data };
 		newData.updated_at = new Date();
 		if (newData.password) {

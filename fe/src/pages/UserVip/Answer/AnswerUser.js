@@ -78,8 +78,9 @@ const AnswerUser = () =>
 							<th className="text-nowrap">Câu hỏi</th>
 							<th className="text-nowrap">Người dùng</th>
 							<th className="text-nowrap">Câu trả lời</th>
+							<th className="text-nowrap">Thời gian</th>
 							{/* <th className="text-nowrap">Điểm số</th> */}
-							<th className="text-nowrap">Action</th>
+							{/* <th className="text-nowrap">Action</th> */}
 						</tr>
 					</thead>
 					<tbody>
@@ -102,11 +103,14 @@ const AnswerUser = () =>
 										<td className="text-gray-900 text-break" style={ { minWidth: '100px' } }>
 											{ item.content_answer || 'N/A' }
 										</td>
+										<td className="text-gray-900 text-nowrap">
+											{ customDate(item.created_at, 'DD/MM/yyyy hh:mm') || 'N/A' }
+										</td>
 										{/* <td className="text-gray-900 text-break">
 											{ console.log( item.results[ 0 ] ) }
 											{ item.results?.length > 0 && item.results[ 0 ].point || <span className="text-danger">Chưa chấm</span> }
 										</td> */}
-										<td>
+										{/* <td>
 											<div className="d-flex text-nowrap">
 												{
 													item.results?.length > 0 ?
@@ -143,7 +147,7 @@ const AnswerUser = () =>
 												}
 											</div>
 
-										</td>
+										</td> */}
 									</tr>
 								)
 							}

@@ -23,7 +23,7 @@ const QuestionDetail = () =>
 	const [ showModal, setShowModal ] = useState( false );
 
 	const [ modal, setModal ] = useState( {
-		title: 'Trả lời câu hỏi',
+		title: 'Feedback',
 		type: 'question',
 		content: '',
 		question_id: 0
@@ -160,42 +160,19 @@ const QuestionDetail = () =>
 															<>
 																<div className="pt-4">
 																	<h4 className="fs-17">
-																		Câu trả lời của bạn:
+																		FeedBack bạn:
 																	</h4>
 																	<p>
 																		{ item.answers.content_answer }
 																	</p>
 																</div>
-																{ item.my_result &&
-																	<div className="pt-4">
-
-																		<ul className="list-inline d-flex mt-0 justify-content-between mb-3">
-																			<li className="list-inline-item d-flex">
-																				<h4 className="fs-17">
-																					Đáp án:
-																				</h4>
-																				<p className="text-muted mb-0 ms-2">
-																					({ item.my_result?.user?.name } { " - " } { customDate( item.created_at, 'DD/MM/yyyy hh:mm' ) })
-																				</p>
-																			</li>
-																			<li className="list-inline-item">
-																				<p className="text-muted mb-0">
-																					Điểm: { item.my_result?.point || 0 }
-																				</p>
-																			</li>
-																		</ul>
-																		<p>
-																			{ item.my_result.content_result }
-																		</p>
-																	</div>
-																}
 															</>
 															: <Link to="#" className="form-text text-primary"
 																onClick={ () =>
 																{
 																	handleAnswer( item )
 																} }>
-																{ item.answer ? 'Xem câu trả lời' : 'Trả lời' }  <i className="uil uil-angle-right-b"></i>
+																{ item.answer ? 'Xem feedback' : 'Feedback' }  <i className="uil uil-angle-right-b"></i>
 															</Link>
 													}
 

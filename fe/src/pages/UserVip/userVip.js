@@ -47,7 +47,7 @@ const UserVipPage = () => {
         },
 		{
             id: 3,
-            name: "Quản lý đáp án",
+            name: "Quản lý feedback",
             path : '/user-vip/answers',
 			type: 'answers',
         },

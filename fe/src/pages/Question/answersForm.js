@@ -74,7 +74,7 @@ export const AnswerResultForm = ( props ) =>
 	return (
 		<Modal show={ props.showModal } size="lg" dialogClassName="dialog-style">
 			<Modal.Header style={ { justifyContent: 'center' } }>
-				<h4 className="fs-20">{ modal?.title || 'Trả lời câu hỏi' }</h4>
+				<h4 className="fs-20">{ modal?.title || 'Trả lời' }</h4>
 
 
 			</Modal.Header>
@@ -98,10 +98,10 @@ export const AnswerResultForm = ( props ) =>
 					<Row>
 						<span className="text-danger">{ mes }</span>
 						<Col md={12}>
-							<Form.Item name="content_answer" label="Câu trả lời"
+							<Form.Item name="content_answer" label="Feedback"
 								rules={ [ { required: true } ] }
 								className=' d-block'>
-								<Input.TextArea rows={ 5 } placeholder='Nhập câu trả lời của bạn' />
+								<Input.TextArea rows={ 5 } placeholder='Nhập feedback của bạn' />
 							</Form.Item>
 						</Col>
 					</Row>

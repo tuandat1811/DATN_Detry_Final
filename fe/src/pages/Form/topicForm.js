@@ -117,6 +117,14 @@ export const TopicForm = ( props ) =>
 			resetForm( form )
 			message.success( 'Successfully' )
 			props.getDataList( { ...props.paging, ...props.params, page: 1 } );
+		} else if ( res?.status === 'fail' && res.data )
+		{
+			let errorArr = Object.entries( res.data );
+			if ( errorArr.length > 0 )
+			{
+				let error = errorArr[0];
+				setMes(error[1][0])
+			}
 		} else
 		{
 			setMes( res.message );

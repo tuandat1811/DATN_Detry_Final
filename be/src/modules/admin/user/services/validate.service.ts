@@ -42,9 +42,9 @@ export class ValidateService {
 				if (isCreated) {
 					errorData.email = newArrayError(errorData.email, 'Email đã tồn tại');
 				}
-				// else if (email.id !== user_id) {
-				// 	errorData.email = newArrayError(errorData.email, 'Email đã tồn tại');
-				// }
+				else if (email.id !== user_id) {
+					errorData.email = newArrayError(errorData.email, 'Email đã tồn tại');
+				}
 			}
 		}
 
