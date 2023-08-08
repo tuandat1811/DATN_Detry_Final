@@ -25,7 +25,7 @@ const CompanyAdmin = () =>
 
 	let [ searchParams, setSearchParams ] = useSearchParams( {} );
 
-	const [ paging, setPaging ] = useState( { page: 1, page_size: 6, total: 0 } );
+	const [ paging, setPaging ] = useState( { page: 1, page_size: 10, total: 0 } );
 	const [ params, setParams ] = useState( {} );
 	const [ showModal, setShowModal ] = useState( false );
 	const [ id, setId ] = useState( false );
@@ -49,7 +49,7 @@ const CompanyAdmin = () =>
 		} else
 		{
 			setDataList( [] );
-			setPaging( { page: 1, page_size: 6, total: 0 } )
+			setPaging( { page: 1, page_size: 10, total: 0 } )
 		}
 	}
 

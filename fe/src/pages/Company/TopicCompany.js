@@ -27,7 +27,7 @@ const TopicCompany = () =>
 
 	const [ topics, setTopics ] = useState( [] );
 
-	const [ paging, setPaging ] = useState( { page: 1, page_size: 6, total: 0 } );
+	const [ paging, setPaging ] = useState( { page: 1, page_size: 10, total: 0 } );
 	const [ paramsTopic, setParamsTopic ] = useState( {} );
 
 

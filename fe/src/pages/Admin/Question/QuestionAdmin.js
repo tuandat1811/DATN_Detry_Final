@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "reactstrap";
 import { Link, useSearchParams } from "react-router-dom";
-import { DEFAULT_USER, EMPTY_IMG, customDate, onErrorUser } from "../../../services/common";
+import { DEFAULT_USER, EMPTY_IMG, customDate, onErrorUser, timeDelay } from "../../../services/common";
 import { useDispatch } from "react-redux";
 import { toggleShowLoading } from "../../../redux/actions/common";
 import { UserService } from "../../../services/user";
@@ -15,6 +15,8 @@ import { CompanyForm } from "../../Form/companyForm";
 import { CompanyService } from "../../../services/company";
 import { QuestionForm } from "../../Form/questionForm";
 import { QuestionService } from "../../../services/question";
+import { message } from "antd";
+import { DeleteConfirm } from "../../Form/deleteConfirm";
 
 
 
@@ -27,7 +29,7 @@ const QuestionAdmin = () =>
 
 	let [ searchParams, setSearchParams ] = useSearchParams( {} );
 
-	const [ paging, setPaging ] = useState( { page: 1, page_size: 6, total: 0 } );
+	const [ paging, setPaging ] = useState( { page: 1, page_size: 10, total: 0 } );
 	const [ params, setParams ] = useState( {} );
 	const [ showModal, setShowModal ] = useState( false );
 	const [ id, setId ] = useState( false );
@@ -51,14 +53,29 @@ const QuestionAdmin = () =>
 		} else
 		{
 			setDataList( [] );
-			setPaging( { page: 1, page_size: 6, total: 0 } )
+			setPaging( { page: 1, page_size: 10, total: 0 } )
 		}
 	}
 
 	useEffect( () =>
 	{
 		getDataList( { page: 1, page_size: paging.page_size } );
-	}, [] )
+	}, [] );
+
+	const deleteData = async (id) => {
+		dispatch(toggleShowLoading(true))
+		const response = await QuestionService.deleteData(id);
+		await timeDelay(1000);
+		dispatch(toggleShowLoading(false))
+		if(response?.status == 'success') {
+			message.success('Xóa câu hỏi thành công');
+			getDataList({page: 1, page_size:10});
+		} else {
+			message.success('Có lỗi sảy ra khi xóa câu hỏi');
+		}
+	}
+
+	const [showModalDelete, setShowModalDelete] = useState(false);
 
 	return (
 
@@ -113,6 +130,14 @@ const QuestionAdmin = () =>
 													} }>
 													Chỉnh sửa
 												</Link>
+												<Link to="#" className="btn btn-danger ms-2"
+													onClick={ () =>
+													{
+														setShowModalDelete( true )
+														setId( item.id )
+													} }>
+													Xóa
+												</Link>
 											</div>
 
 										</td>
@@ -150,6 +175,15 @@ const QuestionAdmin = () =>
 					id={ id }
 					setId={ setId }
 					showModal={ showModal }
+				/>
+
+				<DeleteConfirm
+					deleteData={deleteData}
+					id={ id }
+					setId={ setId }
+					showModal={ showModalDelete }
+					setShowModal={ setShowModalDelete }
+					title={'câu hỏi'}
 				/>
 			</div>
 		</div>

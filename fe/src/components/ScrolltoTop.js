@@ -1,12 +1,11 @@
-import React from "react"; //import React
-import { Button } from "reactstrap"; //import Button from reactstrap
+import React from "react";
+import { Button } from "reactstrap";
 
 const ScrolltoTop = () => {
   window.onscroll = function () {
-    scrollFunction(); //add scroll eventlistener
+    scrollFunction();
   };
-    // When the user clicks on the button, scroll to the top of the document
-    // Show / hide button based on scroll position.
+
   function scrollFunction() {
     const mybutton = document.getElementById("back-to-top");
     if(mybutton) {
@@ -18,11 +17,9 @@ const ScrolltoTop = () => {
 		  } else {
 			mybutton.style.display = "none";
 		  }
-
 	}
     
   }
-  //scroll to top function
   const scrollTop = () => {
     window.scrollTo({
       top: 0,

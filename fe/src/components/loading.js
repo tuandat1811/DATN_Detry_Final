@@ -1,9 +1,8 @@
 import React from 'react'
 // import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux' //import connect from react-redux
-import { Spin, Space } from 'antd'; //import loading antd component. Spin and Space are components of antd for loading and spacing. 
+import { connect } from 'react-redux'
+import { Spin, Space } from 'antd';
 
-//if isShowLoading is true, show loading component. 
 function Loading({ isShowLoading }) {
     if (isShowLoading) {
         return (
@@ -18,7 +17,6 @@ function Loading({ isShowLoading }) {
     }
     return null
 }
-//map redux state to props. Get isShowLoading from commonReducer and pass to Loading component.
 const mapStateToProps = function (state) {
     return {
         isShowLoading: state.commonReducer.showLoading,

@@ -12,6 +12,7 @@ import { Select, message } from "antd";
 import { CompanyService } from "../../services/company";
 import { useDispatch } from "react-redux";
 import { toggleShowLoading } from "../../redux/actions/common";
+import { timeDelay } from "../../services/common";
 
 const SignUp = () =>
 {
@@ -32,7 +33,7 @@ const SignUp = () =>
 
 	const submitForm = async () =>
 	{
-		if ( username && password && email )
+		if ( fullName && username && password && email )
 		{
 			let data = {
 				username: username,
@@ -40,19 +41,26 @@ const SignUp = () =>
 				email: email,
 				name: fullName
 			};
-			dispatch(toggleShowLoading(true))
+			dispatch( toggleShowLoading( true ) )
 
 			const response = await AUTH_SERVICE.register( data );
-			
-			dispatch(toggleShowLoading(false))
+			await timeDelay( 1000 );
+			dispatch( toggleShowLoading( false ) )
 			if ( response?.status == 'success' )
 			{
+				message.success( 'Tạo tài khoản thành công' );
 				window.location.href = '/signin';
-			} else
+			} else if ( response?.status === 'fail' )
 			{
+				let error = response.data;
+				if ( error ) {
+					if ( error.username ) setUsernameError( error.username[ 0 ] );
+					if ( error.password ) setPasswordError( error.password[ 0 ] );
+					if ( error.email ) setEmailError( error.email[ 0 ] );
+				}
+			} else {
 				message.error( response?.message || 'error' );
 			}
-			dispatch(toggleShowLoading(false))
 
 		} else
 		{
@@ -76,7 +84,7 @@ const SignUp = () =>
 											<Row className="align-items-center">
 												<Col md={ 6 } className="text-center">
 													<CardBody className="p-4">
-														
+
 														<div className="mt-5">
 															<img
 																src={ signUpImage }
@@ -107,7 +115,7 @@ const SignUp = () =>
 																		className={ `form-control ${ fullNameError && 'error' }` }
 																		required
 																		id="usernameInput"
-																		placeholder="Nhập họ và tênt"
+																		placeholder="Nhập họ và tên"
 																		onChange={ ( e ) => { setFullName( e.target.value ); setFullNameError( '' ) } }
 																	/>
 																	{ fullNameError && <p style={ { color: 'rgb(255, 80, 80)', fontSize: 12, marginTop: 5 } }>{ fullNameError }</p> }
@@ -159,7 +167,7 @@ const SignUp = () =>
 																	/>
 																	{ passwordError && <p style={ { color: 'rgb(255, 80, 80)', fontSize: 12, marginTop: 5 } }>{ passwordError }</p> }
 																</div>
-																
+
 																<div className="text-center">
 																	<button
 																		type="button"

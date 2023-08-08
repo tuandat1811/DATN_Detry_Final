@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "reactstrap";
 import { Link, useSearchParams } from "react-router-dom";
-import { DEFAULT_USER, EMPTY_IMG, customDate, onErrorUser } from "../../../services/common";
+import { DEFAULT_USER, EMPTY_IMG, customDate, onErrorUser, timeDelay } from "../../../services/common";
 import { useDispatch } from "react-redux";
 import { toggleShowLoading } from "../../../redux/actions/common";
 import { UserService } from "../../../services/user";
 import { genStatusClass, genUserType } from "../../../services/common/helpersFnc";
 import PaginationPage from "../../Jobs/JobList2/Pagination";
 import { UserForm } from "../../Form/adminUserForm";
-import {
-	EditOutlined
-  } from '@ant-design/icons';
+import
+	{
+		EditOutlined
+	} from '@ant-design/icons';
 import { CompanyForm } from "../../Form/companyForm";
 import { CompanyService } from "../../../services/company";
 import { QuestionForm } from "../../Form/questionForm";
 import { QuestionService } from "../../../services/question";
+import { DeleteConfirm } from "../../Form/deleteConfirm";
+import { message } from "antd";
 
 
 
@@ -27,7 +30,7 @@ const QuestionUser = () =>
 
 	let [ searchParams, setSearchParams ] = useSearchParams( {} );
 
-	const [ paging, setPaging ] = useState( { page: 1, page_size: 6, total: 0 } );
+	const [ paging, setPaging ] = useState( { page: 1, page_size: 10, total: 0 } );
 	const [ params, setParams ] = useState( {} );
 	const [ showModal, setShowModal ] = useState( false );
 	const [ id, setId ] = useState( false );
@@ -51,14 +54,29 @@ const QuestionUser = () =>
 		} else
 		{
 			setDataList( [] );
-			setPaging( { page: 1, page_size: 6, total: 0 } )
+			setPaging( { page: 1, page_size: 10, total: 0 } )
 		}
 	}
 
 	useEffect( () =>
 	{
 		getDataList( { page: 1, page_size: paging.page_size } );
-	}, [] )
+	}, [] );
+
+	const deleteData = async (id) => {
+		dispatch(toggleShowLoading(true))
+		const response = await QuestionService.deleteData(id);
+		await timeDelay(1000);
+		dispatch(toggleShowLoading(false))
+		if(response?.status == 'success') {
+			message.success('Xóa câu hỏi thành công');
+			getDataList({page: 1, page_size:10});
+		} else {
+			message.success('Có lỗi sảy ra khi xóa câu hỏi');
+		}
+	}
+
+	const [showModalDelete, setShowModalDelete] = useState(false);
 
 	return (
 
@@ -90,22 +108,22 @@ const QuestionUser = () =>
 								return (
 									< tr key={ key } className="table-product">
 										<td className="text-gray-900 text-center">{ ( paging.page - 1 ) * paging.page_size + ( key + 1 ) }</td>
-										
+
 										<td className="text-gray-900 text-nowrap">
 											{ item.name }
 										</td>
-										<td className="text-gray-900 text-break" style={{minWidth: '200px'}}>
+										<td className="text-gray-900 text-break" style={ { minWidth: '200px' } }>
 											{ item.content_question }
 										</td>
 
 										<td className="text-gray-900 text-break">
-											{item.topic?.name || 'N/A'}
+											{ item.topic?.name || 'N/A' }
 										</td>
 										<td className="text-gray-900 text-break">
-											{item.user?.name || 'N/A'}
+											{ item.user?.name || 'N/A' }
 										</td>
 										<td className="text-gray-900 text-break">
-											{item.count_answer || '0'}
+											{ item.count_answer || '0' }
 										</td>
 										<td>
 											<div className="d-flex">
@@ -116,6 +134,14 @@ const QuestionUser = () =>
 														setId( item.id )
 													} }>
 													Chỉnh sửa
+												</Link>
+												<Link to="#" className="btn btn-danger ms-2"
+													onClick={ () =>
+													{
+														setShowModalDelete( true )
+														setId( item.id )
+													} }>
+													Xóa
 												</Link>
 											</div>
 
@@ -152,9 +178,18 @@ const QuestionUser = () =>
 					params={ params }
 					setShowModal={ setShowModal }
 					id={ id }
-					type={'user'}
+					type={ 'user' }
 					setId={ setId }
 					showModal={ showModal }
+				/>
+
+				<DeleteConfirm
+					deleteData={ deleteData }
+					id={ id }
+					setId={ setId }
+					showModal={ showModalDelete }
+					setShowModal={ setShowModalDelete }
+					title={ 'câu hỏi' }
 				/>
 			</div>
 		</div>

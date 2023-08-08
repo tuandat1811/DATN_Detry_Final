@@ -1,15 +1,15 @@
-import React from "react"; //import React library
-import Routes from "./Routes/index"; //import Routes component that contains all the routes.
+import React from "react";
+import Routes from "./Routes/index";
 
 //import Custom Style scss
 import "./assets/scss/themes.scss";
-import "antd/dist/reset.css"; //import antd css
-import Loading from "./components/loading"; //import loading component to show loading screen.
+import "antd/dist/reset.css";
+import Loading from "./components/loading";
 function App() {
   return (
     <React.Fragment>
-		<Loading/> 
-      <Routes /> 
+		<Loading/>
+      <Routes />
     </React.Fragment>
   );
 }

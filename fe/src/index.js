@@ -1,25 +1,20 @@
-//import React from 'react';
 import React from "react";
-//import ReactDOM from "react-dom";
 import ReactDOM from "react-dom/client";
-//import App component
 import App from "./App";
-import { BrowserRouter } from "react-router-dom"; //import BrowserRouter component for routing
-import { Provider } from 'react-redux'; //import Provider component from react-redux
-import reportWebVitals from "./reportWebVitals"; //import reportWebVitals function for performance measurement
-import { createStore } from "redux"; //import createStore function from redux
-import rootReducer from "./redux/rootReducer"; //import rootReducer from redux
-//create store for redux with rootReducer. RootReducer is a function that contains all the reducers.
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from 'react-redux';
+import reportWebVitals from "./reportWebVitals";
+import { createStore } from "redux";
+import rootReducer from "./redux/rootReducer";
+
 const store = createStore(
 	rootReducer,
   );
-//render App component inside BrowserRouter component inside Provider component inside root element. 
-//Also get root element using getElementById function.
 const root = ReactDOM.createRoot( document.getElementById( "root" ) );
 root.render(
 
 	<React.Fragment>
-		<Provider store={ store }> 
+		<Provider store={ store }>
 			<BrowserRouter>
 				<App />
 			</BrowserRouter>

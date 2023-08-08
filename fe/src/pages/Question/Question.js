@@ -18,7 +18,7 @@ const QuestionDetail = () =>
 	const params = useParams();
 	let [ searchParams, setSearchParams ] = useSearchParams( {} );
 	const [ topics, setTopics ] = useState( null );
-	const [ paging, setPaging ] = useState( { page: 1, page_size: 6, total: 0 } );
+	const [ paging, setPaging ] = useState( { page: 1, page_size: 10, total: 0 } );
 	const [ questions, setQuestions ] = useState( [] );
 	const [ showModal, setShowModal ] = useState( false );
 

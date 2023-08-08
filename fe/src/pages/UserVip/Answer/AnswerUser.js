@@ -32,7 +32,7 @@ const AnswerUser = () =>
 
 	let [ searchParams, setSearchParams ] = useSearchParams( {} );
 
-	const [ paging, setPaging ] = useState( { page: 1, page_size: 6, total: 0 } );
+	const [ paging, setPaging ] = useState( { page: 1, page_size: 10, total: 0 } );
 	const [ params, setParams ] = useState( {} );
 	const [ showModal, setShowModal ] = useState( false );
 	const [ data, setData ] = useState( null );
@@ -57,7 +57,7 @@ const AnswerUser = () =>
 		} else
 		{
 			setDataList( [] );
-			setPaging( { page: 1, page_size: 6, total: 0 } )
+			setPaging( { page: 1, page_size: 10, total: 0 } )
 		}
 	}
 
@@ -76,9 +76,9 @@ const AnswerUser = () =>
 							<th>ID</th>
 							<th className="text-nowrap">Chủ đề</th>
 							<th className="text-nowrap">Câu hỏi</th>
-							<th className="text-nowrap">Thí sinh</th>
+							<th className="text-nowrap">Người dùng</th>
 							<th className="text-nowrap">Câu trả lời</th>
-							<th className="text-nowrap">Điểm số</th>
+							{/* <th className="text-nowrap">Điểm số</th> */}
 							<th className="text-nowrap">Action</th>
 						</tr>
 					</thead>
@@ -102,10 +102,10 @@ const AnswerUser = () =>
 										<td className="text-gray-900 text-break" style={ { minWidth: '100px' } }>
 											{ item.content_answer || 'N/A' }
 										</td>
-										<td className="text-gray-900 text-break">
+										{/* <td className="text-gray-900 text-break">
 											{ console.log( item.results[ 0 ] ) }
 											{ item.results?.length > 0 && item.results[ 0 ].point || <span className="text-danger">Chưa chấm</span> }
-										</td>
+										</td> */}
 										<td>
 											<div className="d-flex text-nowrap">
 												{

@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "reactstrap";
 import { Link, useSearchParams } from "react-router-dom";
-import { DEFAULT_IMG, DEFAULT_USER, EMPTY_IMG, URL_IMG, customDate, onErrorImg, onErrorUser } from "../../../services/common";
+import { DEFAULT_IMG, DEFAULT_USER, EMPTY_IMG, URL_IMG, customDate, onErrorImg, onErrorUser, timeDelay } from "../../../services/common";
 import { useDispatch } from "react-redux";
 import { toggleShowLoading } from "../../../redux/actions/common";
 import { UserService } from "../../../services/user";
 import { genStatusClass, genUserType } from "../../../services/common/helpersFnc";
 import PaginationPage from "../../Jobs/JobList2/Pagination";
 import { UserForm } from "../../Form/adminUserForm";
-import {
+import
+{
 	EditOutlined
-  } from '@ant-design/icons';
+} from '@ant-design/icons';
 import { CompanyForm } from "../../Form/companyForm";
 import { CompanyService } from "../../../services/company";
 import { QuestionForm } from "../../Form/questionForm";
 import { QuestionService } from "../../../services/question";
 import { TopicForm } from "../../Form/topicForm";
 import { TopicService } from "../../../services/topic";
+import { DeleteConfirm } from "../../Form/deleteConfirm";
+import { message } from "antd";
 
 
 
@@ -29,7 +32,7 @@ const TopicUser = () =>
 
 	let [ searchParams, setSearchParams ] = useSearchParams( {} );
 
-	const [ paging, setPaging ] = useState( { page: 1, page_size: 6, total: 0 } );
+	const [ paging, setPaging ] = useState( { page: 1, page_size: 10, total: 0 } );
 	const [ params, setParams ] = useState( {} );
 	const [ showModal, setShowModal ] = useState( false );
 	const [ id, setId ] = useState( false );
@@ -53,14 +56,32 @@ const TopicUser = () =>
 		} else
 		{
 			setDataList( [] );
-			setPaging( { page: 1, page_size: 6, total: 0 } )
+			setPaging( { page: 1, page_size: 10, total: 0 } )
 		}
 	}
 
 	useEffect( () =>
 	{
 		getDataList( { page: 1, page_size: paging.page_size } );
-	}, [] )
+	}, [] );
+
+	const deleteData = async ( id ) =>
+	{
+		dispatch( toggleShowLoading( true ) )
+		const response = await TopicService.deleteData( id );
+		await timeDelay( 1000 );
+		dispatch( toggleShowLoading( false ) )
+		if ( response?.status == 'success' )
+		{
+			message.success( 'Xóa chủ đề thành công' );
+			getDataList( { page: 1, page_size: 10 } );
+		} else
+		{
+			message.success( 'Có lỗi sảy ra khi xóa chủ đề' );
+		}
+	}
+
+	const [ showModalDelete, setShowModalDelete ] = useState( false );
 
 	return (
 
@@ -99,12 +120,12 @@ const TopicUser = () =>
 										<td className="text-gray-900 text-nowrap">
 											{ item.name }
 										</td>
-										<td className="text-gray-900 text-break" style={{minWidth: '200px'}}>
+										<td className="text-gray-900 text-break" style={ { minWidth: '200px' } }>
 											{ item.company?.name || 'N/A' }
 										</td>
 
 										<td className="text-gray-900 text-break">
-											{item.user?.name || 'N/A'}
+											{ item.user?.name || 'N/A' }
 										</td>
 										<td>
 											<div className="d-flex">
@@ -115,6 +136,14 @@ const TopicUser = () =>
 														setId( item.id )
 													} }>
 													Chỉnh sửa
+												</Link>
+												<Link to="#" className="btn btn-danger ms-2"
+													onClick={ () =>
+													{
+														setShowModalDelete( true )
+														setId( item.id )
+													} }>
+													Xóa
 												</Link>
 											</div>
 
@@ -151,9 +180,18 @@ const TopicUser = () =>
 					params={ params }
 					setShowModal={ setShowModal }
 					id={ id }
-					type={'user'}
+					type={ 'user' }
 					setId={ setId }
 					showModal={ showModal }
+				/>
+
+				<DeleteConfirm
+					deleteData={ deleteData }
+					id={ id }
+					setId={ setId }
+					showModal={ showModalDelete }
+					setShowModal={ setShowModalDelete }
+					title={ 'chủ đề' }
 				/>
 			</div>
 		</div>
