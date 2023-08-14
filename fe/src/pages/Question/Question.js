@@ -5,7 +5,7 @@ import { toggleShowLoading } from "../../redux/actions/common";
 import { TopicService } from "../../services/topic";
 import { useDispatch } from "react-redux";
 import { QuestionService } from "../../services/question";
-import { checkIsAdmin, checkIsUser, checkLogin, customDate } from "../../services/common";
+import { DEFAULT_IMG, checkIsAdmin, checkIsUser, checkLogin, customDate, onErrorImg } from "../../services/common";
 import { AnswerResultForm } from "./answersForm";
 import { message } from "antd";
 import NoDataPage from "../../components/noData";
@@ -149,18 +149,22 @@ const QuestionDetail = () =>
 												</li>
 											</ul>
 											<h5 className="fs-19">{ item.name }</h5>
+											<div style={{maxWidth: '300px', maxHeight: '300px'}} className="mx-auto  text-center my-3">
+												<img style={{objectFit: 'cover'}} className="h-100" src={ item.avatar || DEFAULT_IMG } alt={ item.id } onError={ onErrorImg } />
+
+											</div>
 											<p>
 												{ item.content_question }
 											</p>
 											{
-												
+
 												<div className="border-top-muted pt-4">
 													{
 														item.answers ?
 															<>
 																<div className="pt-4">
 																	<h4 className="fs-17">
-																		FeedBack bạn:
+																		FeedBack của bạn:
 																	</h4>
 																	<p>
 																		{ item.answers.content_answer }
@@ -185,7 +189,7 @@ const QuestionDetail = () =>
 						}
 
 					</Row>
-					<NoDataPage total={paging.total || 0}/>
+					<NoDataPage total={ paging.total || 0 } />
 				</Container>
 			</section>
 			<AnswerResultForm

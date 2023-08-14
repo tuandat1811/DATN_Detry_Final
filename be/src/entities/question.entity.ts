@@ -23,6 +23,9 @@ export class Question {
     @Column()
     content_question: string;
 
+	@Column()
+	avatar: string;
+
     @Column('timestamp', { name: 'created_at', default: () => 'now()' })
 	created_at: Date;
 

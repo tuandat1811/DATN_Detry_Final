@@ -159,30 +159,6 @@ export class QuestionController {
 		}
 	}
 
-	// @Get('/answers')
-	// @UseGuards(JwtGuard)
-	// @HttpCode(HttpStatus.OK)
-	// @ApiResponse({ status: 200, description: 'success' })
-	// async getListAnswers(@Request() req: any) {
-	// 	try {
-	// 		const filters = {
-	// 			question_id: req.query.question_id || null,
-	// 			question_name: req.query.question_name || null,
-	// 		}
-	// 		const paging: IPaging = {
-	// 			page: req.query.page || 1,
-	// 			page_size: req.query.page_size || 20,
-	// 		};
-	// 		let responseData: any = await this.questionService.getListAnswers(paging, filters);
-
-	// 		return BaseResponse(HTTP_STATUS.success, responseData, '', 'Successful');
-
-	// 	} catch (e) {
-	// 		console.log('UserController@getLists ---------->', e.message);
-	// 		return BaseResponse(e.status, e.response, e.code || 'E0001', e.message);
-	// 	}
-	// }
-
 	@Get(':id')
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })

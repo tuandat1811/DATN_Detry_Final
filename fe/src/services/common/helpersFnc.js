@@ -49,14 +49,14 @@ export const appendForm = async ( data, form, setFile, hasFile = false ) =>
 		if ( data.created_at ) delete data.created_at;
 		if ( data.updated_at ) delete data.updated_at;
 		let formValue = { ...data };
-		if ( hasFile )
+		if ( hasFile && data.avatar)
 		{
 			let file = [];
 			file.push( {
 				uid: file.length,
 				name: data.avatar,
 				status: 'done',
-				url: URL_IMG + data.avatar || DEFAULT_USER,
+				url: URL_IMG + data.avatar,
 				default: true
 			} );
 			formValue.image = file;

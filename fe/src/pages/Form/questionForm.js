@@ -44,7 +44,7 @@ export const QuestionForm = ( props ) =>
 	const getDetail = async ( id ) =>
 	{
 		dispatch( toggleShowLoading( true ) )
-		const rs = await UserService.getDetailData( id );
+		const rs = await QuestionService.getDetailData( id );
 		dispatch( toggleShowLoading( false ) )
 
 		if ( rs.status === 'success' )
@@ -56,7 +56,9 @@ export const QuestionForm = ( props ) =>
 					status: data?.status,
 					content_question: data?.content_question,
 					topic_id: data?.topic_id,
-				}, form, setFile )
+					avatar: data?.avatar,
+					name: data.name || null
+				}, form, setFile, true )
 			}
 		}
 	}
@@ -76,7 +78,6 @@ export const QuestionForm = ( props ) =>
 		}
 		if ( response.status === 'success' && response.data.result.length > 0 )
 		{
-			console.log( response.data.result );
 			let companies = response.data.result.reduce( ( arr, e ) =>
 			{
 				arr.push( {
@@ -85,7 +86,6 @@ export const QuestionForm = ( props ) =>
 				} )
 				return arr;
 			}, [] );
-			console.log( companies );
 			setDataConfigs( companies );
 		}
 	}
@@ -94,9 +94,15 @@ export const QuestionForm = ( props ) =>
 	{
 
 		dispatch( toggleShowLoading( true ) )
+		let avatar = await uploadFileAvatar( file );
 
 		let formData = { ...e };
 		let res;
+		if(avatar) {
+			formData.avatar = avatar;
+		}
+
+		delete formData.image;
 
 		if (formData.topic_id && formData.topic_id.value)
 			formData.topic_id = formData.topic_id.value;
@@ -139,6 +145,7 @@ export const QuestionForm = ( props ) =>
 		resetForm( form )
 		props.setShowModal( false );
 		setMes( '' )
+		setFile( [] )
 		props.setId( null )
 	}
 
@@ -172,6 +179,24 @@ export const QuestionForm = ( props ) =>
 								rules={ [ { required: true } ] }
 								className=' d-block'>
 								<Input.TextArea rows={ 5 } className="w-100" placeholder='Nhập câu hỏi' />
+							</Form.Item>
+						</div>
+
+						<div className="col-md-12">
+							<Form.Item
+								label="Avatar"
+								name="image"
+								accept="images/**"
+								className='d-block'
+								valuePropName="fileList"
+								fileList={ file }
+								getValueFromEvent={ ( e ) => normFile( e, setFile ) }
+							>
+								<Upload action="/upload" listType="picture-card">
+									{ file.length <= 0 && <div>
+										<div style={ { marginTop: 8 } }>Chọn ảnh</div>
+									</div> }
+								</Upload>
 							</Form.Item>
 						</div>
 

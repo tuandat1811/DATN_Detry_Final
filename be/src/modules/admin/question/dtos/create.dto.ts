@@ -16,9 +16,9 @@ export class CreateDto {
 	@IsNotEmpty()
 	content_question: string;
 
-	// @ApiProperty()
-	// @IsNotEmpty()
-	// content_answer: string;
+	@ApiProperty()
+	@IsOptional()
+	avatar?: string;
 
 	created_at: any = new Date();
 	updated_at: any = new Date();

@@ -15,9 +15,9 @@ export class UpdateDto {
 	@IsOptional()
 	content_question?: string;
 
-	// @ApiProperty()
-	// @IsOptional()
-	// content_answer?: string;
+	@ApiProperty()
+	@IsOptional()
+	avatar?: string;
 
 	updated_at: any = new Date();
 }

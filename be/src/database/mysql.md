@@ -49,6 +49,7 @@ CREATE TABLE questions
 	  user_id INT DEFAULT 0,
 		topic_id INT DEFAULT 0,
 		content_question text,
+		avatar TEXT DEFAULT null,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`) USING BTREE
