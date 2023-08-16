@@ -5,7 +5,15 @@ import { toggleShowLoading } from "../../redux/actions/common";
 import { TopicService } from "../../services/topic";
 import { useDispatch } from "react-redux";
 import { QuestionService } from "../../services/question";
-import { DEFAULT_IMG, checkIsAdmin, checkIsUser, checkLogin, customDate, onErrorImg } from "../../services/common";
+import {
+	DEFAULT_IMG,
+	checkIsAdmin,
+	checkIsUser,
+	checkLogin,
+	customDate,
+	onErrorImg,
+	URL_IMG
+} from "../../services/common";
 import { AnswerResultForm } from "./answersForm";
 import { message } from "antd";
 import NoDataPage from "../../components/noData";
@@ -149,9 +157,8 @@ const QuestionDetail = () =>
 												</li>
 											</ul>
 											<h5 className="fs-19">{ item.name }</h5>
-											<div style={{maxWidth: '300px', maxHeight: '300px'}} className="mx-auto  text-center my-3">
-												<img style={{objectFit: 'cover'}} className="h-100" src={ item.avatar || DEFAULT_IMG } alt={ item.id } onError={ onErrorImg } />
-
+											<div style={{maxWidth: '100%', height: "auto", width: "100%"}} className="mx-auto  text-center my-3">
+												<img style={{objectFit: 'cover'}} className="h-100" src={URL_IMG + item.avatar || DEFAULT_IMG} alt={ item.id } onError={ onErrorImg } />
 											</div>
 											<p>
 												{ item.content_question }
